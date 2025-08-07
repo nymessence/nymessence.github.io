@@ -1,58 +1,5 @@
 <div class="banner-container">
-  <style>
-    /* Scoped styles so they don't leak out */
-    .banner-container body,
-    .banner-container html {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .banner-container .banner {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background-image: url('https://github.com/nymessence/expiriements/blob/master/fractals_for_wall_art/hexabrot_variance_wall_art.jpg?raw=true');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: flex-end;
-      overflow: hidden;
-    }
-
-    @media (min-width: 768px) {
-      .banner-container .banner {
-        height: 50vh;
-      }
-    }
-
-    .banner-container .gradient-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 40%;
-      background: linear-gradient(to top, rgba(45, 45, 45, 0.9), transparent);
-      z-index: 0;
-    }
-
-    .banner-container .banner-content {
-      position: relative;
-      z-index: 1;
-      padding: 2rem;
-    }
-
-    .banner-container .banner-content h1 {
-      color: #ffffff;
-      font-size: clamp(2rem, 8vw, 6rem);
-      font-weight: 400;
-      font-style: italic;
-      margin: 0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-  </style>
-
+  <link rel="stylesheet" href="styles/banner.css"> 
   <div class="banner">
     <div class="gradient-overlay"></div>
     <div class="banner-content">

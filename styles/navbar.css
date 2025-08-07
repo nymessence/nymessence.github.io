@@ -1,0 +1,57 @@
+/* Scoped styles so they only affect the navbar-container */
+.navbar-container body,
+.navbar-container html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f4f4;
+}
+
+.navbar-container .navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  padding: 1rem;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container .nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-container .nav-links li {
+  margin: 0 1.5rem;
+}
+
+.navbar-container .nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.navbar-container .nav-links a:hover {
+  color: #fff;
+}
+
+.navbar-container .nav-links .current a {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .navbar-container .nav-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar-container .nav-links li {
+    margin: 0.5rem 0;
+  }
+}
