@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nymessence Merch & Art</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nymessence Merch & Art — Support nymyaOS development through art and gear.">
+  <!-- Link to the single, combined stylesheet -->
+  <link rel="stylesheet" href="../styles/merch-art.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <script>
+    async function loadHTML(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
+
+    loadHTML('navbar', 'navbar.html');
+  </script>
+  
+  <h1>> Nymessence Merch & Art</h1>
+  <p class="support-text">Every sale of art, clothing, and gear directly supports the development of <a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS</a>.</p>
+
+  <div class="coming-soon-container">
+    <p class="coming-soon-text">Merch & art coming soon.</p>
+  </div>
+
+</body>
+</html>
+
