@@ -23,6 +23,7 @@ body {
 /* Scrollable main content wrapper */
 .page-wrapper {
   height: 100vh;         /* full viewport height */
+  width: 100vw;
   overflow-y: auto;      /* vertical scroll on the page content */
   display: flex;
   flex-direction: column;
@@ -31,6 +32,10 @@ body {
   background-color: #000;
   color: #0f0;
   font-family: monospace, sans-serif;
+  #banner, #navbar {
+    width: 100%;
+    align-self: stretch; /* forces full width despite parent's align-items:center */
+  }
 }
 
 /* Your merch container scrolls internally if needed */
