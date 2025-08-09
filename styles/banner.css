@@ -1,10 +1,10 @@
-/* Scoped styles so they don't leak out */
-.banner-container body,
-.banner-container html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Playfair Display', serif;
+/* banner.css */
+
+/* Global resets like html, body should go in your global CSS, NOT here */
+
+.banner-container {
+  width: 100%;
+  /* Add container-level styles here if needed */
 }
 
 .banner-container .banner {
@@ -42,13 +42,13 @@
 }
 
 .banner-container .logo-container {
-  display: flex; /* Use flexbox to align the logo and text horizontally */
-  align-items: center; /* Vertically center the items */
-  gap: 1rem; /* Add some space between the logo and the text */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .banner-container .logo {
-  height: clamp(2rem, 8vw, 6rem); /* Scale the logo's height to match the text */
+  height: clamp(2rem, 8vw, 6rem);
   width: auto;
 }
 
@@ -60,3 +60,4 @@
   margin: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+

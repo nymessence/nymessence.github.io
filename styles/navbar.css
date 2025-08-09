@@ -1,13 +1,12 @@
-/* Scoped styles so they only affect the navbar-container */
-.navbar-container body,
-.navbar-container html {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-  background-color: #f4f4f4;
+/* navbar.css */
+
+/* Container-level styles (optional) */
+.navbar-container {
+  width: 100%;
+  /* You can add background here if needed, but navbar itself has bg */
 }
 
+/* Navbar bar styling */
 .navbar-container .navbar {
   display: flex;
   justify-content: center;
@@ -18,6 +17,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Navigation links list */
 .navbar-container .nav-links {
   display: flex;
   list-style: none;
@@ -25,10 +25,12 @@
   padding: 0;
 }
 
+/* Individual nav items */
 .navbar-container .nav-links li {
   margin: 0 1.5rem;
 }
 
+/* Nav links */
 .navbar-container .nav-links a {
   color: #ccc;
   text-decoration: none;
@@ -36,15 +38,18 @@
   transition: color 0.3s ease;
 }
 
+/* Nav links hover state */
 .navbar-container .nav-links a:hover {
   color: #fff;
 }
 
+/* Current active nav item */
 .navbar-container .nav-links .current a {
   color: #fff;
   font-weight: 600;
 }
 
+/* Responsive: stack nav items vertically on narrow screens */
 @media (max-width: 600px) {
   .navbar-container .nav-links {
     flex-direction: column;
@@ -55,3 +60,4 @@
     margin: 0.5rem 0;
   }
 }
+
