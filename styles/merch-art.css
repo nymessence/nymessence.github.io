@@ -37,7 +37,7 @@ body {
 .merch-container {
   width: 95vw;
   max-width: 1200px;
-  height: 400px;          /* fixed height */
+  height: 500px;          /* fixed height */
   padding: 15px;
   box-sizing: border-box;
   background: linear-gradient(145deg, #d7d7d7, #a9a9a9);
