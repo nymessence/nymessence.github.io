@@ -26,11 +26,24 @@
       <div class="text-wrapper">
           <h1>&gt; Nymessence Merch &amp; Art</h1>
           <p class="support-text">Every sale of art, clothing, and gear directly supports the development of <a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS</a>.</p>
+        
+        <label for="merch-category">Choose a category:</label>
+        <select id="merch-category" onchange="changeMerchCategory(this.value)">
+            <option value="shirts.html">T-Shirts</option>
+            <option value="wall_art.html">Wall Art</option>
+        </select>
+        
         <div class="merch-container">
-          <iframe src="shirts.html" frameborder="0"></iframe>
+          <iframe id="merch-iframe" src="shirts.html" frameborder="0"></iframe>
         </div>
       </div>
 
     </div>
+    
+    <script>
+        function changeMerchCategory(file) {
+            document.getElementById('merch-iframe').src = file;
+        }
+    </script>
 </body>
-
+</html>
