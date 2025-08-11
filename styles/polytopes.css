@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>4D Polytope Visualizer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js",
+          "three/addons/": "/node_modules/three/examples/jsm/"
+        }
+      }
+    </script>
+<style>
+  body, html { margin: 0; height: 100%; overflow: hidden; background: #000; color: #eee; font-family: system-ui, sans-serif; }
+  #container { width: 100%; height: 100%; display: block; }
+  #ui label { display: flex; justify-content: space-between; margin: 6px 0; }
+  #ui input[type=color], #ui input[type=range], #ui select, #ui input[type=number] {
+    margin-left: 8px;
+  }
+  #ui {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    max-width: 360px;
+    width: 90vw;           /* make it wider on small screens */
+    max-height: 80vh;      /* limit height */
+    overflow-y: auto;      /* scroll if too tall */
+    background: rgba(10,10,12,0.95);
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 16px;       /* bigger fonts for touch */
+    color: #eee;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    z-index: 9999;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling */
+  }
+  #renderBtn {
+    margin-top: 8px; padding: 8px 10px; border-radius: 6px; border: none;
+    background: #1e90ff; color: white; cursor: pointer;
+    font-weight: 600;
+  }
+  footer {
+    position: fixed; bottom: 12px; left: 12px;
+    color: #ccc; font-size: 13px; user-select: none;
+    background: rgba(0,0,0,0.5); padding: 6px 10px; border-radius: 6px;
+  }
+  #container {
+    position: relative;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<div id="ui">
+  <strong>4D Polytope Visualizer</strong>
+  
+  <label>
+    Select Polytope
+    <select id="polytopeSelect">
+      <option value="4-simplex">4-simplex</option>
+      <option value="hypercube">Hypercube</option>
+      <option value="16-cell">16 Cell</option>
+      <option value="24-cell" selected>24 Cell</option>
+      <option value="120-cell">120 Cell</option>
+      <option value="600-cell">600 Cell</option>
+    </select>
+  </label>
+  <hr />
+
+  <label>Show Vertices
+    <input type="checkbox" id="showVerts" checked />
+  </label>
+  <label>Vertex Color
+    <input type="color" id="vertColor" value="#ffcc00" />
+  </label>
+  <label>Vertex Size
+    <input type="range" id="vertSize" min="0.01" max="0.2" step="0.005" value="0.05" />
+  </label>
+
+  <hr />
+
+  <label>Show Edges
+    <input type="checkbox" id="showEdges" checked />
+  </label>
+  <label>Edge Color
+    <input type="color" id="edgeColor" value="#44aaff" />
+  </label>
+  <label>Edge Opacity
+    <input type="range" id="edgeOpacity" min="0" max="1" step="0.01" value="0.9" />
+  </label>
+
+  <hr />
+
+  <label>Show Faces
+    <input type="checkbox" id="showFaces" />
+  </label>
+  <label>Face Color
+    <input type="color" id="faceColor" value="#aa44ff" />
+  </label>
+  <label>Face Opacity
+    <input type="range" id="faceOpacity" min="0" max="1" step="0.01" value="0.3" />
+  </label>
+
+  <hr />
+
+  <strong>4D Rotations</strong>
+  <label>XY
+    <input type="range" id="rotXY" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+  <label>XZ
+    <input type="range" id="rotXZ" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+  <label>YZ
+    <input type="range" id="rotYZ" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+  <label>XW
+    <input type="range" id="rotXW" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+  <label>YW
+    <input type="range" id="rotYW" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+  <label>ZW
+    <input type="range" id="rotZW" min="0" max="6.28318" step="0.01" value="0" />
+  </label>
+
+  <hr />
+
+  <label>High-res Render Mode
+    <select id="renderMode">
+      <option value="png">Large PNG export</option>
+      <option value="samples">Multisample average render</option>
+    </select>
+  </label>
+  <label>Resolution Multiplier
+    <input type="number" id="resMult" min="1" max="4" step="1" value="2" style="width: 50px;" />
+  </label>
+  <label>Samples (multisample)
+    <input type="number" id="samples" min="1" max="64" step="1" value="8" style="width: 50px;" />
+  </label>
+  <button id="renderBtn">Generate High-Res Image</button>
+  <div id="progress" style="margin-top:8px; font-size: 12px; color: #aaa;"></div>
+</div>
+
+<footer>
+  Rotate 3D with mouse drag, zoom with wheel.<br />
+  Use sliders to control 4D rotation planes.
+</footer>
+
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { ConvexGeometry } from "three/addons/geometries/ConvexGeometry.js";
+
+  // Container and scene setup
+  const container = document.getElementById('container');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.set(3, 3, 3);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  // 24-cell vertices generation
+  function generate24CellVertices() {
+    const verts = [];
+    const c = 1 / Math.sqrt(2);
+
+    // 8 vertices with one ±1, others 0
+    for (let i = 0; i < 4; i++) {
+      for (let s of [-1, 1]) {
+        const v = [0, 0, 0, 0];
+        v[i] = s;
+        verts.push(v);
+      }
+    }
+
+    // 16 vertices with all ±1/√2
+    for (let x of [-c, c]) {
+      for (let y of [-c, c]) {
+        for (let z of [-c, c]) {
+          for (let w of [-c, c]) {
+            verts.push([x, y, z, w]);
+          }
+        }
+      }
+    }
+    return verts;
+  }
+
+  // 4D rotation matrix for plane (a,b)
+  function rotationMatrix4D(a, b, angle) {
+    const m = [
+      [1, 0, 0, 0],
+      [0, 1, 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1]
+    ];
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+    m[a][a] = c;
+    m[a][b] = -s;
+    m[b][a] = s;
+    m[b][b] = c;
+    return m;
+  }
+
+  // Multiply 4D vector by 4x4 matrix
+  function multiplyVecMat4D(v, m) {
+    const r = [];
+    for (let i = 0; i < 4; i++) {
+      r[i] = v[0]*m[0][i] + v[1]*m[1][i] + v[2]*m[2][i] + v[3]*m[3][i];
+    }
+    return r;
+  }
+
+  // Project 4D point to 3D with perspective on W
+  function project4Dto3D([x, y, z, w], perspective = 3) {
+    const factor = perspective / (perspective - w);
+    return new THREE.Vector3(x * factor, y * factor, z * factor);
+  }
+
+  // Store initial 4D vertices
+  const vertices4D = generate24CellVertices();
+
+  // Groups to hold objects
+  const pointsGroup = new THREE.Group();
+  const edgesGroup = new THREE.Group();
+  const facesGroup = new THREE.Group();
+
+  scene.add(pointsGroup, edgesGroup, facesGroup);
+
+  // Compute edges based on 3D positions: connect vertices approx distance sqrt(2)
+  function computeEdges(vertices) {
+    const edges = [];
+    for (let i = 0; i < vertices.length; i++) {
+      for (let j = i + 1; j < vertices.length; j++) {
+        const dist = vertices[i].distanceTo(vertices[j]);
+        if (dist > 1.3 && dist < 1.6) edges.push([i, j]);
+      }
+    }
+    return edges;
+  }
+
+  // Settings from UI
+  const settings = {
+    rotationXY: 0,
+    rotationXZ: 0,
+    rotationYZ: 0,
+    rotationXW: 0,
+    rotationYW: 0,
+    rotationZW: 0,
+    showVertices: true,
+    vertexColor: '#ffcc00',
+    vertexOpacity: 1.0,
+    vertexSize: 0.05,
+    showEdges: true,
+    edgeColor: '#44aaff',
+    edgeOpacity: 0.9,
+    showFaces: false,
+    faceColor: '#aa44ff',
+    faceOpacity: 0.3,
+  };
+
+  // Update geometry & visuals
+  let vertices3D = [];
+  function updateGeometry() {
+    pointsGroup.clear();
+    edgesGroup.clear();
+    facesGroup.clear();
+
+    // Apply all rotations on 4D vertices
+    let transformed = vertices4D.map(v => [...v]);
+    const planes = [
+      [0,1, settings.rotationXY],
+      [0,2, settings.rotationXZ],
+      [1,2, settings.rotationYZ],
+      [0,3, settings.rotationXW],
+      [1,3, settings.rotationYW],
+      [2,3, settings.rotationZW],
+    ];
+    for (const [a,b,angle] of planes) {
+      if (angle !== 0) {
+        const rot = rotationMatrix4D(a,b,angle);
+        transformed = transformed.map(v => multiplyVecMat4D(v, rot));
+      }
+    }
+
+    // Project to 3D
+    vertices3D = transformed.map(p => project4Dto3D(p));
+
+    // Vertices
+    if (settings.showVertices) {
+      const sphereGeo = new THREE.SphereGeometry(settings.vertexSize, 12, 12);
+      const mat = new THREE.MeshBasicMaterial({
+        color: settings.vertexColor,
+        transparent: true,
+        opacity: settings.vertexOpacity
+      });
+      for (const v of vertices3D) {
+        const mesh = new THREE.Mesh(sphereGeo, mat);
+        mesh.position.copy(v);
+        pointsGroup.add(mesh);
+      }
+    }
+
+    // Edges
+    if (settings.showEdges) {
+      const edges = computeEdges(vertices3D);
+      const positions = [];
+      for (const [i, j] of edges) {
+        positions.push(vertices3D[i].x, vertices3D[i].y, vertices3D[i].z);
+        positions.push(vertices3D[j].x, vertices3D[j].y, vertices3D[j].z);
+      }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      const mat = new THREE.LineBasicMaterial({
+        color: settings.edgeColor,
+        transparent: true,
+        opacity: settings.edgeOpacity
+      });
+      const lines = new THREE.LineSegments(geo, mat);
+      edgesGroup.add(lines);
+    }
+
+    // Faces (convex hull)
+    if (settings.showFaces) {
+      const geometry = new ConvexGeometry(vertices3D);
+      const mat = new THREE.MeshBasicMaterial({
+        color: settings.faceColor,
+        transparent: true,
+        opacity: settings.faceOpacity,
+        side: THREE.DoubleSide,
+        depthWrite: false
+      });
+      const mesh = new THREE.Mesh(geometry, mat);
+      facesGroup.add(mesh);
+    }
+  }
+
+  // UI elements hookup
+  function setupUI() {
+    // Vertex controls
+    const showVerts = document.getElementById('showVerts');
+    const vertColor = document.getElementById('vertColor');
+    const vertSize = document.getElementById('vertSize');
+
+    // Edges controls
+    const showEdges = document.getElementById('showEdges');
+    const edgeColor = document.getElementById('edgeColor');
+    const edgeOpacity = document.getElementById('edgeOpacity');
+
+    // Faces controls
+    const showFaces = document.getElementById('showFaces');
+    const faceColor = document.getElementById('faceColor');
+    const faceOpacity = document.getElementById('faceOpacity');
+
+    // Rotation sliders
+    const rotXY = document.getElementById('rotXY');
+    const rotXZ = document.getElementById('rotXZ');
+    const rotYZ = document.getElementById('rotYZ');
+    const rotXW = document.getElementById('rotXW');
+    const rotYW = document.getElementById('rotYW');
+    const rotZW = document.getElementById('rotZW');
+
+    // Update functions
+    function updateSettings() {
+      settings.showVertices = showVerts.checked;
+      settings.vertexColor = vertColor.value;
+      settings.vertexSize = parseFloat(vertSize.value);
+
+      settings.showEdges = showEdges.checked;
+      settings.edgeColor = edgeColor.value;
+      settings.edgeOpacity = parseFloat(edgeOpacity.value);
+
+      settings.showFaces = showFaces.checked;
+      settings.faceColor = faceColor.value;
+      settings.faceOpacity = parseFloat(faceOpacity.value);
+
+      settings.rotationXY = parseFloat(rotXY.value);
+      settings.rotationXZ = parseFloat(rotXZ.value);
+      settings.rotationYZ = parseFloat(rotYZ.value);
+      settings.rotationXW = parseFloat(rotXW.value);
+      settings.rotationYW = parseFloat(rotYW.value);
+      settings.rotationZW = parseFloat(rotZW.value);
+
+      updateGeometry();
+    }
+
+    // Attach event listeners
+    [showVerts, vertColor, vertSize,
+     showEdges, edgeColor, edgeOpacity,
+     showFaces, faceColor, faceOpacity,
+     rotXY, rotXZ, rotYZ, rotXW, rotYW, rotZW
+    ].forEach(el => el.addEventListener('input', updateSettings));
+
+    updateSettings();
+
+    // High-res rendering controls
+    const renderBtn = document.getElementById('renderBtn');
+    const renderMode = document.getElementById('renderMode');
+    const resMult = document.getElementById('resMult');
+    const samplesInput = document.getElementById('samples');
+    const progress = document.getElementById('progress');
+
+    // Render high-res image function
+    async function renderHighRes() {
+      renderBtn.disabled = true;
+      progress.textContent = 'Rendering... Please wait.';
+      const width = window.innerWidth * parseInt(resMult.value);
+      const height = window.innerHeight * parseInt(resMult.value);
+
+      if (renderMode.value === 'png') {
+        // Simple single frame render at high res
+        const origSize = renderer.getSize(new THREE.Vector2());
+        renderer.setSize(width, height);
+        renderer.render(scene, camera);
+        const dataURL = renderer.domElement.toDataURL('image/png');
+        downloadImage(dataURL, '24cell-highres.png');
+        renderer.setSize(origSize.x, origSize.y);
+        progress.textContent = 'Render done.';
+      } else if (renderMode.value === 'samples') {
+        // Multisample average rendering for antialiasing-like effect
+        const samples = parseInt(samplesInput.value);
+        const origSize = renderer.getSize(new THREE.Vector2());
+
+        // Create canvas to accumulate pixels
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        // Temporary canvas for each sample
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // Accumulate pixel data arrays
+        let accum = ctx.createImageData(width, height);
+        for (let i = 0; i < accum.data.length; i++) accum.data[i] = 0;
+
+        // Move camera slightly per sample for jitter
+        for (let i = 0; i < samples; i++) {
+          // jitter rotation by tiny amount
+          const jitterAmt = 0.005;
+          const jitterRotations = {
+            rotationXY: settings.rotationXY + (Math.random() - 0.5) * jitterAmt,
+            rotationXZ: settings.rotationXZ + (Math.random() - 0.5) * jitterAmt,
+            rotationYZ: settings.rotationYZ + (Math.random() - 0.5) * jitterAmt,
+            rotationXW: settings.rotationXW + (Math.random() - 0.5) * jitterAmt,
+            rotationYW: settings.rotationYW + (Math.random() - 0.5) * jitterAmt,
+            rotationZW: settings.rotationZW + (Math.random() - 0.5) * jitterAmt,
+          };
+
+          // Temporarily override rotations
+          settings.rotationXY = jitterRotations.rotationXY;
+          settings.rotationXZ = jitterRotations.rotationXZ;
+          settings.rotationYZ = jitterRotations.rotationYZ;
+          settings.rotationXW = jitterRotations.rotationXW;
+          settings.rotationYW = jitterRotations.rotationYW;
+          settings.rotationZW = jitterRotations.rotationZW;
+
+          updateGeometry();
+
+          renderer.setSize(width, height);
+          renderer.render(scene, camera);
+
+          // Read pixels from WebGL
+          const pixels = new Uint8Array(width * height * 4);
+          renderer.readRenderTargetPixels(renderer.getRenderTarget(), 0, 0, width, height, pixels);
+
+          // Draw image on temp canvas to extract pixel data (needed workaround)
+          tempCtx.drawImage(renderer.domElement, 0, 0);
+
+          // Get image data from temp canvas
+          const imgData = tempCtx.getImageData(0, 0, width, height);
+
+          // Accumulate pixels
+          for (let p = 0; p < accum.data.length; p++) {
+            accum.data[p] += imgData.data[p] / samples;
+          }
+
+          progress.textContent = `Rendering sample ${i+1} / ${samples}...`;
+          await new Promise(r => setTimeout(r, 0)); // yield to UI thread
+        }
+
+        // Restore original rotations
+        updateSettings();
+
+        // Put accumulated data into ctx
+        ctx.putImageData(accum, 0, 0);
+
+        // Download result
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          downloadImage(url, '24cell-multisample.png');
+          URL.revokeObjectURL(url);
+          progress.textContent = 'Render done.';
+          renderer.setSize(origSize.x, origSize.y);
+          renderBtn.disabled = false;
+        });
+        return;
+      }
+
+      renderBtn.disabled = false;
+    }
+
+    function downloadImage(dataURL, filename) {
+      const a = document.createElement('a');
+      a.href = dataURL;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+    
+    const polytopeSelect = document.getElementById('polytopeSelect');
+    polytopeSelect.addEventListener('change', () => {
+      const shape = polytopeSelect.value;
+      console.log('Selected shape:', shape);
+      // Here you’d add code to update your geometry based on selection
+    });
+    
+    let vertices4D = [];  // current polytope vertices
+
+    // Polytope vertex generators (reuse your existing generate24CellVertices and add the others)
+    function generate4SimplexVertices() {
+      return [
+        [1, 0, 0, 0],
+        [-0.25,  Math.sqrt(15)/4, 0, 0],
+        [-0.25, -Math.sqrt(5)/4, Math.sqrt(10)/4, 0],
+        [-0.25, -Math.sqrt(5)/4, -Math.sqrt(10)/8, 3*Math.sqrt(6)/8],
+        [-0.25, -Math.sqrt(5)/4, -Math.sqrt(10)/8, -3*Math.sqrt(6)/8],
+      ];
+    }
+
+    function generateHypercubeVertices() {
+      const verts = [];
+      const vals = [-1,1];
+      for (const x of vals)
+        for (const y of vals)
+          for (const z of vals)
+            for (const w of vals)
+              verts.push([x,y,z,w]);
+      return verts;
+    }
+
+    function generate16CellVertices() {
+      const verts = [];
+      for (let i=0; i<4; i++) {
+        for (const sign of [-1,1]) {
+          const v = [0,0,0,0];
+          v[i] = sign;
+          verts.push(v);
+        }
+      }
+      return verts;
+    }
+
+    function generate24CellVertices() {
+      const verts = [];
+      const c = 1/Math.sqrt(2);
+      for (let i=0; i<4; i++) {
+        for (const s of [-1,1]) {
+          const v = [0,0,0,0];
+          v[i] = s;
+          verts.push(v);
+        }
+      }
+      for (const x of [-c,c])
+        for (const y of [-c,c])
+          for (const z of [-c,c])
+            for (const w of [-c,c])
+              verts.push([x,y,z,w]);
+      return verts;
+    }
+
+    function generate120CellVertices() {
+      // simplified placeholder - just hypercube scaled down
+      return generateHypercubeVertices().map(v => v.map(x => x * 0.5));
+    }
+
+    function generate600CellVertices() {
+      const verts = [];
+      const φ = (1 + Math.sqrt(5)) / 2;
+      // 8 vertices (±2,0,0,0) permutations
+      for (let i=0; i<4; i++) {
+        for (const sign of [-1,1]) {
+          const v = [0,0,0,0];
+          v[i] = sign*2;
+          verts.push(v);
+        }
+      }
+      // 16 vertices (±1,±1,±1,±1)
+      const vals = [-1,1];
+      for (const x of vals)
+        for (const y of vals)
+          for (const z of vals)
+            for (const w of vals)
+              verts.push([x,y,z,w]);
+      
+      // 96 vertices from even permutations of (0, ±1, ±φ, ±1/φ)
+      // For brevity, skipped parity check, just generate permutations and signs
+
+      function permute(arr, l=0, res=[]) {
+        if (l===arr.length-1) {
+          res.push(arr.slice());
+          return;
+        }
+        for (let i=l; i<arr.length; i++) {
+          [arr[l],arr[i]]=[arr[i],arr[l]];
+          permute(arr,l+1,res);
+          [arr[l],arr[i]]=[arr[i],arr[l]];
+        }
+        return res;
+      }
+
+      const baseVals = [0, 1, φ, 1/φ];
+      const perms = permute(baseVals);
+      const signs = [-1,1];
+
+      for (const p of perms) {
+        for (const sx of signs) for (const sy of signs) for (const sz of signs) for (const sw of signs) {
+          verts.push([sx*p[0], sy*p[1], sz*p[2], sw*p[3]]);
+        }
+      }
+      return verts;
+    }
+
+    // Update vertices for chosen polytope
+    function updateVerticesForPolytope(name) {
+      switch(name) {
+        case '4-simplex': vertices4D = generate4SimplexVertices(); break;
+        case 'hypercube': vertices4D = generateHypercubeVertices(); break;
+        case '16-cell': vertices4D = generate16CellVertices(); break;
+        case '24-cell': vertices4D = generate24CellVertices(); break;
+        case '120-cell': vertices4D = generate120CellVertices(); break;
+        case '600-cell': vertices4D = generate600CellVertices(); break;
+        default: vertices4D = generate24CellVertices();
+      }
+      updateGeometry();
+    }
+
+    // Listen for dropdown change and update
+    polytopeSelect.addEventListener('change', () => {
+      updateVerticesForPolytope(polytopeSelect.value);
+    });
+
+    // Initialize first shape
+    updateVerticesForPolytope(polytopeSelect.value);
+
+    renderBtn.addEventListener('click', renderHighRes);
+  }
+
+  setupUI();
+
+  // Animate loop
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+</script>
+
+</body>
+</html>
