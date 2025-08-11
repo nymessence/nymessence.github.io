@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ulam Spiral Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../styles/ulam.css" />
+</head>
+<body>
+
+<div id="ui">
+  <label>
+    Visualization:
+    <select id="modeSelect">
+      <option value="primes">Primes (green on black)</option>
+      <option value="heatmap">Heatmap (factor count)</option>
+    </select>
+  </label>
+  <button id="resetBtn">Reset View</button>
+</div>
+
+<canvas id="ulamCanvas"></canvas>
+
+<script type="module" src="../js/ulam.js"></script>
+
+</body>
+</html>
