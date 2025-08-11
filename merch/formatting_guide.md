@@ -8,7 +8,7 @@
 
 ### Description
 
-This [Title] fractal art T-Shirt is perfect for those who are interested in technology, spirituality, and systems theory. It gives off a futuristic and conscious vibe, designed for those looking to support innovative tech startups like Nymessence. This shirt is a statement piece for those embracing post-capitalist systems and open-source operating systems. Perfect for tech enthusiasts and those passionate about conscious design.
+This [Title] T-Shirt is perfect for those who are interested in technology, spirituality, and systems theory. It gives off a futuristic and conscious vibe, designed for those looking to support innovative tech startups like Nymessence. This shirt is a statement piece for those embracing post-capitalist systems and open-source operating systems. Perfect for tech enthusiasts and those passionate about conscious design.
 
  
 
