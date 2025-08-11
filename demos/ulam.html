@@ -9,14 +9,16 @@
 <body>
 
 <div id="ui">
+  <strong>Number Visualization</strong>
   <label>
-    Visualization:
+    Mode:
     <select id="modeSelect">
-      <option value="primes">Primes (green on black)</option>
-      <option value="heatmap">Heatmap (factor count)</option>
+      <option value="ulam-green">Ulam Spiral (Green)</option>
+      <option value="ulam-heat">Ulam Spiral (Heatmap)</option>
+      <option value="gauss-green">Gaussian Primes (Green)</option>
+      <option value="gauss-heat">Gaussian Primes (Heatmap)</option>
     </select>
   </label>
-  <button id="resetBtn">Reset View</button>
 </div>
 
 <canvas id="ulamCanvas"></canvas>
