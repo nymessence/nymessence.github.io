@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Binaural Beats Generator</title>
+<link rel="stylesheet" href="../styles/binaural.css" />
+</head>
+<body>
+  <canvas id="bgCanvas"></canvas>
+  <script type="module" src="../js/24cell_bg.js"></script>
+
+  <div class="container">
+    <h2>Binaural Beats Generator</h2>
+    
+    <label for="presetSelect">Choose a preset:</label>
+    <select id="presetSelect">
+      <option value="">-- Custom --</option>
+      <option value="delta">Delta (0.5-4 Hz)</option>
+      <option value="theta">Theta (4-8 Hz)</option>
+      <option value="alpha">Alpha (8-13 Hz)</option>
+      <option value="beta">Beta (13-30 Hz)</option>
+      <option value="gamma">Gamma (30-40 Hz)</option>
+    </select>
+    
+    <label for="baseFreq">Base Frequency (30-1000 Hz):</label>
+    <input type="number" id="baseFreq" min="30" max="1000" step="1" value="400" />
+    
+    <label for="binauralFreq">Binaural Beat Frequency (0.5-40 Hz):</label>
+    <input type="number" id="binauralFreq" min="0.5" max="40" step="0.5" value="10" />
+    
+    <button id="playBtn">Play</button>
+    <button id="stopBtn" disabled>Stop</button>
+  </div>
+
+  
+  <script src="../js/binaural.js"></script>
+</body>
+</html>
+
