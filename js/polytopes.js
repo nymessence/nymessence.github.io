@@ -17,9 +17,9 @@
 /* -------------------------
    Imports
    ------------------------- */
-import * as THREE from '../node_modules/three/build/three.module.js';
-import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import { ConvexGeometry } from '../node_modules/three/examples/jsm/geometries/ConvexGeometry.js';
+import * as THREE from "../node_modules/three/build/three.module.js";
+import { OrbitControls } from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
+import { ConvexGeometry } from "../node_modules/three/examples/jsm/geometries/ConvexGeometry.js";
 
 /* -------------------------
    DOM + renderer + lights
