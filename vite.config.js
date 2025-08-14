@@ -3,22 +3,40 @@ import { defineConfig } from 'vite';
 import rewriteAll from 'vite-plugin-rewrite-all';
 
 export default defineConfig({
-  // Set the base path to ensure relative URLs work correctly for GitHub Pages.
+  // The 'base' property defines the public path during development and build.
+  // Setting it to './' ensures all URLs are relative to the current path,
+  // which is crucial for GitHub Pages hosting on a project-level repository.
   base: './',
-  
-  // This tells Vite to look for your HTML files in the project's root directory.
+
+  // The 'root' specifies the root directory of your project.
+  // This is typically './' for a standard project structure.
   root: './',
 
-  // The build configuration will output to the 'dist' folder.
+  // The 'build' object configures the production build process.
   build: {
+    // 'outDir' sets the output directory for the build files.
+    // 'dist' is the standard Vite output folder.
     outDir: 'dist',
-    
-    // This setting ensures that the output paths are relative.
+
+    // 'assetsDir' defines the directory where assets (like images and fonts)
+    // are stored relative to the 'outDir'. Setting it to an empty string
+    // places assets directly in the 'dist' folder, simplifying paths.
     assetsDir: '',
+
+    // This option prevents Vite from generating separate chunks for vendor libraries.
+    // It can be helpful for small projects to consolidate everything into a single bundle.
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
   },
 
-  // Use the plugin to automatically rewrite all paths.
+  // 'plugins' is an array where you can add Vite plugins.
+  // 'rewriteAll()' is a useful plugin that helps rewrite asset URLs,
+  // further ensuring they are handled correctly.
   plugins: [
     rewriteAll()
   ],
 });
+
