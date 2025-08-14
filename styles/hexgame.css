@@ -1,0 +1,46 @@
+/* hexgame.css */
+
+/* Ensure body and html take full viewport */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #001022, #004466); /* fallback gradient */
+}
+
+/* Full-screen 3D canvas */
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* keep it behind game UI */
+  pointer-events: none;
+}
+
+/* Example game container UI */
+.container {
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+  color: #ffffff;
+}
+
+/* Buttons / controls styling */
+button {
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: rgba(255,255,255,0.1);
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(255,255,255,0.2);
+}
