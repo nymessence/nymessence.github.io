@@ -589,4 +589,3 @@ animate();
 window.__poly = {
   loadPolytope, updateGeometry, boundsToCamera, scene, renderer, camera: () => currentCamera
 };
-
