@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <title>4D Polytope Visualizer</title>
-    <!-- Critical: Responsive viewport with user scaling disabled only if intentional -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     
     <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
@@ -18,7 +17,6 @@
     }
     </script>
 
-    <!-- Inline critical styles -->
     <style>
         /* Ensure UI has highest priority */
         #ui {
@@ -34,10 +32,8 @@
 </head>
 
 <body>
-    <!-- Main 3D canvas container -->
     <div id="container" class="canvas-container"></div>
 
-    <!-- EVENT BLOCKER: Prevents canvas from stealing UI events -->
     <div id="ui-event-blocker" style="
         position: fixed;
         top: 20px;
@@ -50,7 +46,6 @@
         border-radius: 6px;
     "></div>
 
-    <!-- Interactive UI Sidebar (scrollable on all devices) -->
     <aside id="ui" role="complementary" aria-label="Control Panel">
         <div class="ui-content">
             <header>
@@ -59,7 +54,6 @@
                 <button id="fullscreenBtn">Full screen</button>
             </header>
 
-            <!-- Scroll hint -->
             <div class="scroll-hint" style="
                 text-align: center;
                 font-size: 12px;
@@ -193,54 +187,4 @@
         Use sliders to control 4D rotation planes.
     </footer>
 
-    <!-- Main application script -->
     <script type="module">
-        // CRITICAL: This must run BEFORE your main script
-        document.addEventListener('DOMContentLoaded', () => {
-            // Create event blocker if it doesn't exist
-            let blocker = document.getElementById('ui-event-blocker');
-            if (!blocker) {
-                blocker = document.createElement('div');
-                blocker.id = 'ui-event-blocker';
-                blocker.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 10px;
-                    width: 280px;
-                    height: calc(100vh - 40px);
-                    z-index: 1999;
-                    pointer-events: none;
-                    display: block;
-                    border-radius: 6px;
-                `;
-                document.body.insertBefore(blocker, document.getElementById('ui'));
-            }
-
-            // Update blocker size
-            function updateBlocker() {
-                const ui = document.getElementById('ui');
-                if (!ui || ui.classList.contains('hidden')) {
-                    blocker.style.display = 'none';
-                    return;
-                }
-                const rect = ui.getBoundingClientRect();
-                blocker.style.top = `${rect.top}px`;
-                blocker.style.right = `${window.innerWidth - rect.right}px`;
-                blocker.style.width = `${rect.width}px`;
-                blocker.style.height = `${rect.height}px`;
-                blocker.style.display = 'block';
-            }
-
-            // Initial and resize updates
-            updateBlocker();
-            window.addEventListener('resize', updateBlocker);
-            
-            // Update when UI is toggled
-            document.getElementById('toggleUI')?.addEventListener('click', () => {
-                setTimeout(updateBlocker, 10);
-            });
-        });
-    </script>
-    <script type="module" src="../js/polytopes.js"></script>
-</body>
-</html>
