@@ -6,10 +6,13 @@ export default defineConfig({
   plugins: [
     rewriteAll()
   ],
-  // Add other configurations here if needed
+  // The 'base' property is crucial for GitHub Pages.
+  // It tells Vite where to find your assets.
+  // Replace 'nymessence.github.io' with your repository name.
+  base: '/',
   build: {
-    // You might want to add a base path for GitHub Pages
-    // base: '/nymessence.github.io/',
-  }
+    outDir: 'dist', // This is the folder that will be deployed
+    sourcemap: true, // Useful for debugging in production
+  },
 });
 
