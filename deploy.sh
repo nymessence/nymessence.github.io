@@ -1,22 +1,15 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status.
 set -e
 
-# =========================================================
-# === Part 1: Interactive Commit and Push to 'main' branch ===
-# =========================================================
-
-# === Git config setup ===
-# Use your name and email here. This ensures your commits are correctly attributed.
+# === Git config setup (unchanged) ===
 GIT_USER="nymessence"
 GIT_EMAIL="humid_ray_0u@icloud.com"
 
 git config user.name "$GIT_USER"
 git config user.email "$GIT_EMAIL"
 
-# === Load GitHub token from a file ===
-# This script assumes you have a Personal Access Token stored in a file.
+# === Load GitHub token (unchanged) ===
 TOKEN_FILE="$HOME/.gh_token"
 if [[ ! -f "$TOKEN_FILE" ]]; then
     echo "❌ GitHub token file not found at $TOKEN_FILE"
@@ -26,7 +19,7 @@ if [[ ! -f "$TOKEN_FILE" ]]; then
 fi
 GITHUB_TOKEN=$(<"$TOKEN_FILE")
 
-# === Get current remote URL and inject the token for authentication ===
+# === Get current remote URL and inject the token (unchanged) ===
 REMOTE_URL=$(git config --get remote.origin.url)
 if [[ "$REMOTE_URL" == git@github.com:* ]]; then
     REPO_PATH="${REMOTE_URL#git@github.com:}"
@@ -44,7 +37,10 @@ fi
 
 git remote set-url origin "$REMOTE_URL"
 
-# === Commit process ===
+# =========================================================
+# === Part 1: Interactive Commit and Push to 'main' branch ===
+# =========================================================
+
 read -p "Enter your commit message: " COMMIT_MSG
 
 git add .
@@ -52,7 +48,6 @@ echo
 git status
 echo
 
-# Check if there are any changes to commit on the current branch
 if git diff --cached --exit-code; then
     echo "⚠️ Nothing to commit. The working tree is clean."
     exit 0
@@ -85,42 +80,32 @@ echo
 echo "---"
 echo "Starting deployment of static site to 'gh-pages'..."
 
-# Set variables for the deployment
 BUILD_DIR="dist"
 GH_PAGES_BRANCH="gh-pages"
 ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-# Check if the build directory exists
 if [ ! -d "$BUILD_DIR" ]; then
     echo "Error: The build directory '$BUILD_DIR' does not exist."
     echo "Please ensure 'npm run build' generates this folder."
     exit 1
 fi
 
-# 1. Build the project
 echo "Building the project..."
 npm run build || { echo "Build failed. Exiting."; exit 1; }
 
-# 2. Check out to the gh-pages branch
 echo "Switching to the '$GH_PAGES_BRANCH' branch..."
 git checkout $GH_PAGES_BRANCH 2>/dev/null || git checkout --orphan $GH_PAGES_BRANCH
 
-# 3. Remove all files from the gh-pages branch except the .git directory
-echo "Removing old files from the '$GH_PAGES_BRANCH' branch..."
-git rm -rf .
-git clean -fd
-
-# 4. Copy the contents of the build directory to the root
+# === The non-destructive part: copy and overwrite, do not delete ===
+# NOTE: This will leave old, unused files on the live website.
 echo "Copying built files from '$BUILD_DIR' to the root..."
 cp -r $BUILD_DIR/. .
 
-# 5. Add, commit, and push the new files to the gh-pages branch
 echo "Committing and pushing to GitHub..."
 git add .
 git commit -m "Deploy to GitHub Pages $(date)"
 git push origin $GH_PAGES_BRANCH --force
 
-# 6. Switch back to the original branch
 echo "Deployment complete. Switching back to the '$ORIGINAL_BRANCH' branch..."
 git checkout $ORIGINAL_BRANCH
 
