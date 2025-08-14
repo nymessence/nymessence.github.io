@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Demos & Explorations</title>
+  
+  <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/index2.css">
+</head>
+<body>
+  <div id="banner"></div>
+  <div id="navbar"></div>
+
+  <script>
+    async function loadHTML(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
+
+    loadHTML('banner', '/banner.html');
+    loadHTML('navbar', 'navbar.html');
+  </script>
+
+  <h1>Demos & Explorations</h1>
+
+  <p>Step into a collection of interactive projects—some just for fun, some hinting at deeper patterns of reality.</p>
+
+  <ul>
+    <li><a href="ulam.html">Ulam Spiral Visualizer</a> – Discover patterns in primes, with echoes of hidden geometry</li>
+    <li><a href="ipfs.html">IPFS File Uploader</a> – Upload and share files across a decentralized network</li>
+    <li><a href="fractal.html">Fractal Viewer</a> – Dive into infinite, self-repeating forms</li>
+    <li><a href="hexgame.html">Hex Pillar Game</a> – A 3D puzzle with hexagonal symmetry</li>
+    <li><a href="binaural.html">Binaural Beats Generator</a> – Explore sound frequencies that influence the mind</li>
+    <li><a href="4d_polytopes.html">4D Polytopes Visualizer</a> – Peer into the shapes of four-dimensional space</li>
+  </ul>
+
+  <p>Some of these experiments are playful. Others whisper at the boundaries of mathematics, consciousness, and hidden order.</p>
+
+  <div class="enigmatic">
+    <p>Patterns exist everywhere, waiting to be noticed.</p>
+    <p>Interact, explore, and let the subtle connections reveal themselves.</p>
+    <p>Somewhere between the code and the cosmos, you might just glimpse the unusual.</p>
+  </div>
+</body>
+</html>
+

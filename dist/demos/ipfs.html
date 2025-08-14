@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPFS File Uploader</title>
+  
+  <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
+  <script type="module" crossorigin src="/assets/modulepreload-polyfill.js"></script>
+  <script type="module" crossorigin src="/assets/ipfs2.js"></script>
+  <link rel="stylesheet" href="/assets/ipfs.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Upload File to IPFS</h2>
+    <label for="fileInput" class="drag-area" id="dragArea">
+      <p>Drag or drop your file here</p>
+    </label>
+    <input type="file" id="fileInput" />
+    <button class="upload-btn" id="uploadBtn">Upload</button>
+    <p class="status" id="status"></p>
+    <p class="cid-display">Root CID: <span id="cid"></span></p>
+  </div>
+
+  <!-- The script tag has been corrected to point to the right file and includes 'type="module"' -->
+  
+</body>
+</html>
+
