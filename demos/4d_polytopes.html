@@ -5,8 +5,9 @@
     <title>4D Polytope Visualizer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     
-    <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../styles/polytopes.css" />
+    <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
+    
+
 
     <script type="importmap">
     {
@@ -16,6 +17,11 @@
         }
     }
     </script>
+  <script type="module" crossorigin src="/assets/polytopes.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.js">
+  <link rel="modulepreload" crossorigin href="/assets/three.module.js">
+  <link rel="modulepreload" crossorigin href="/assets/OrbitControls.js">
+  <link rel="stylesheet" href="/assets/4d_polytopes.css">
 </head>
 
 <body>
@@ -190,6 +196,6 @@
     </script>
 
     <!-- Main app script -->
-    <script type="module" src="../js/polytopes.js"></script>
+    
 </body>
 </html>

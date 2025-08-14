@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <title>Binaural Beats Generator</title>
-<link rel="stylesheet" href="../styles/binaural.css" />
-<link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+
+<link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
+  <script type="module" crossorigin src="/assets/modulepreload-polyfill.js"></script>
+  <script type="module" crossorigin src="/assets/three.module.js"></script>
+  <script type="module" crossorigin src="/assets/binaural2.js"></script>
+  <link rel="stylesheet" href="/assets/binaural.css">
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
-  <script type="module" src="../js/24cell_bg.js"></script>
+  
   
   <div class="container">
     <h2>Binaural Beats Generator</h2>
@@ -35,7 +39,7 @@
     
     <audio id="silentAudio" src="../audio/silent.mp3" loop preload="auto"></audio>
     
-  <script type="module" src="../js/binaural.js"></script>
+  
 </body>
 </html>
 
