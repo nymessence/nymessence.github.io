@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <title>4D Polytope Visualizer</title>
+    <!-- Critical: Responsive viewport with user scaling disabled only if intentional -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    
     <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../styles/polytopes.css" />
 
@@ -15,118 +17,230 @@
         }
     }
     </script>
+
+    <!-- Inline critical styles -->
+    <style>
+        /* Ensure UI has highest priority */
+        #ui {
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+            pointer-events: auto !important;
+        }
+        
+        #ui * {
+            pointer-events: auto !important;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="container"></div>
+    <!-- Main 3D canvas container -->
+    <div id="container" class="canvas-container"></div>
 
-    <div id="ui">
-        <header>
-            <strong>4D Polytope Visualizer</strong>
-            <button id="toggleUI">Hide UI</button>
-            <button id="fullscreenBtn">Full screen</button>
-        </header>
-        
-        <label>
-            Select Polytope
-            <select id="polytopeSelect">
-                <option value="4-simplex">4-simplex</option>
-                <option value="hypercube">Hypercube</option>
-                <option value="16-cell">16 Cell</option>
-                <option value="24-cell" selected>24 Cell</option>
-                <option value="120-cell">120 Cell</option>
-                <option value="600-cell">600 Cell</option>
-            </select>
-        </label>
-        <hr />
+    <!-- EVENT BLOCKER: Prevents canvas from stealing UI events -->
+    <div id="ui-event-blocker" style="
+        position: fixed;
+        top: 20px;
+        right: 10px;
+        width: 280px;
+        height: calc(100vh - 40px);
+        z-index: 1999;
+        pointer-events: none;
+        display: block;
+        border-radius: 6px;
+    "></div>
 
-        <label>Show Vertices
-            <input type="checkbox" id="showVerts" checked />
-        </label>
-        <label>Vertex Color
-            <input type="color" id="vertColor" value="#ffcc00" />
-        </label>
-        <label>Vertex Size
-            <input type="range" id="vertSize" min="0.01" max="0.2" step="0.005" value="0.05" />
-        </label>
+    <!-- Interactive UI Sidebar (scrollable on all devices) -->
+    <aside id="ui" role="complementary" aria-label="Control Panel">
+        <div class="ui-content">
+            <header>
+                <strong>4D Polytope Visualizer</strong>
+                <button id="toggleUI" aria-pressed="false">Hide UI</button>
+                <button id="fullscreenBtn">Full screen</button>
+            </header>
 
-        <hr />
+            <!-- Scroll hint -->
+            <div class="scroll-hint" style="
+                text-align: center;
+                font-size: 12px;
+                color: #aaa;
+                margin: 4px 0;
+                padding: 4px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            ">↓ Scroll for more controls</div>
 
-        <label>Show Edges
-            <input type="checkbox" id="showEdges" checked />
-        </label>
-        <label>Edge Color
-            <input type="color" id="edgeColor" value="#44aaff" />
-        </label>
-        <label>Edge Opacity
-            <input type="range" id="edgeOpacity" min="0" max="1" step="0.01" value="0.9" />
-        </label>
+            <label for="polytopeSelect">
+                Select Polytope
+                <select id="polytopeSelect" name="polytopeSelect">
+                    <option value="4-simplex">4-simplex</option>
+                    <option value="hypercube">Hypercube</option>
+                    <option value="16-cell">16 Cell</option>
+                    <option value="24-cell" selected>24 Cell</option>
+                    <option value="120-cell">120 Cell</option>
+                    <option value="600-cell">600 Cell</option>
+                </select>
+            </label>
+            <hr />
 
-        <hr />
+            <label>
+                <input type="checkbox" id="showVerts" checked />
+                Show Vertices
+            </label>
+            <label>
+                Vertex Color
+                <input type="color" id="vertColor" value="#ffcc00" />
+            </label>
+            <label>
+                Vertex Size
+                <input type="range" id="vertSize" min="0.01" max="0.2" step="0.005" value="0.05" />
+            </label>
 
-        <label>Show Faces
-            <input type="checkbox" id="showFaces" />
-        </label>
-        <label>Face Color
-            <input type="color" id="faceColor" value="#aa44ff" />
-        </label>
-        <label>Face Opacity
-            <input type="range" id="faceOpacity" min="0" max="1" step="0.01" value="0.3" />
-        </label>
+            <hr />
 
-        <hr />
+            <label>
+                <input type="checkbox" id="showEdges" checked />
+                Show Edges
+            </label>
+            <label>
+                Edge Color
+                <input type="color" id="edgeColor" value="#44aaff" />
+            </label>
+            <label>
+                Edge Opacity
+                <input type="range" id="edgeOpacity" min="0" max="1" step="0.01" value="0.9" />
+            </label>
 
-        <label>Projection Type
-            <select id="projectionType">
-                <option value="perspective" selected>Perspective</option>
-                <option value="parallel">Parallel</option>
-            </select>
-        </label>
-        <hr />
+            <hr />
 
-        <strong>4D Rotations</strong>
-        <label>XY
-            <input type="range" id="rotXY" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
-        <label>XZ
-            <input type="range" id="rotXZ" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
-        <label>YZ
-            <input type="range" id="rotYZ" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
-        <label>XW
-            <input type="range" id="rotXW" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
-        <label>YW
-            <input type="range" id="rotYW" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
-        <label>ZW
-            <input type="range" id="rotZW" min="0" max="6.28318" step="0.01" value="0" />
-        </label>
+            <label>
+                <input type="checkbox" id="showFaces" />
+                Show Faces
+            </label>
+            <label>
+                Face Color
+                <input type="color" id="faceColor" value="#aa44ff" />
+            </label>
+            <label>
+                Face Opacity
+                <input type="range" id="faceOpacity" min="0" max="1" step="0.01" value="0.3" />
+            </label>
 
-        <hr />
+            <hr />
 
-        <label>High-res Render Mode
-            <select id="renderMode">
-                <option value="png">Large PNG export</option>
-                <option value="samples">Multisample average render</option>
-            </select>
-        </label>
-        <label>Resolution Multiplier
-            <input type="number" id="resMult" min="1" max="4" step="1" value="2" style="width: 50px;" />
-        </label>
-        <label>Samples (multisample)
-            <input type="number" id="samples" min="1" max="64" step="1" value="8" style="width: 50px;" />
-        </label>
-        <button id="renderBtn">Generate High-Res Image</button>
-        <div id="progress" style="margin-top:8px; font-size: 12px; color: #aaa;"></div>
-    </div>
+            <label for="projectionType">
+                Projection Type
+                <select id="projectionType" name="projectionType">
+                    <option value="perspective" selected>Perspective</option>
+                    <option value="parallel">Parallel</option>
+                </select>
+            </label>
+            <hr />
 
-    <footer>
+            <strong>4D Rotations</strong>
+            <label>
+                XY Rotation
+                <input type="range" id="rotXY" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XY: 0.00 rad" />
+            </label>
+            <label>
+                XZ Rotation
+                <input type="range" id="rotXZ" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XZ: 0.00 rad" />
+            </label>
+            <label>
+                YZ Rotation
+                <input type="range" id="rotYZ" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="YZ: 0.00 rad" />
+            </label>
+            <label>
+                XW Rotation
+                <input type="range" id="rotXW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XW: 0.00 rad" />
+            </label>
+            <label>
+                YW Rotation
+                <input type="range" id="rotYW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="YW: 0.00 rad" />
+            </label>
+            <label>
+                ZW Rotation
+                <input type="range" id="rotZW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="ZW: 0.00 rad" />
+            </label>
+
+            <hr />
+
+            <label for="renderMode">
+                High-res Render Mode
+                <select id="renderMode" name="renderMode">
+                    <option value="png">Large PNG export</option>
+                    <option value="samples">Multisample average render</option>
+                </select>
+            </label>
+            <label>
+                Resolution Multiplier
+                <input type="number" id="resMult" min="1" max="4" step="1" value="2" style="width: 50px;" />
+            </label>
+            <label>
+                Samples (multisample)
+                <input type="number" id="samples" min="1" max="64" step="1" value="8" style="width: 50px;" />
+            </label>
+            <button id="renderBtn">Generate High-Res Image</button>
+            <div id="progress" aria-live="polite" style="margin-top:8px; font-size: 12px; color: #aaa;"></div>
+        </div>
+    </aside>
+
+    <footer role="contentinfo">
         Rotate 3D with mouse drag, zoom with wheel.<br />
         Use sliders to control 4D rotation planes.
     </footer>
 
+    <!-- Main application script -->
+    <script type="module">
+        // CRITICAL: This must run BEFORE your main script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create event blocker if it doesn't exist
+            let blocker = document.getElementById('ui-event-blocker');
+            if (!blocker) {
+                blocker = document.createElement('div');
+                blocker.id = 'ui-event-blocker';
+                blocker.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 10px;
+                    width: 280px;
+                    height: calc(100vh - 40px);
+                    z-index: 1999;
+                    pointer-events: none;
+                    display: block;
+                    border-radius: 6px;
+                `;
+                document.body.insertBefore(blocker, document.getElementById('ui'));
+            }
+
+            // Update blocker size
+            function updateBlocker() {
+                const ui = document.getElementById('ui');
+                if (!ui || ui.classList.contains('hidden')) {
+                    blocker.style.display = 'none';
+                    return;
+                }
+                const rect = ui.getBoundingClientRect();
+                blocker.style.top = `${rect.top}px`;
+                blocker.style.right = `${window.innerWidth - rect.right}px`;
+                blocker.style.width = `${rect.width}px`;
+                blocker.style.height = `${rect.height}px`;
+                blocker.style.display = 'block';
+            }
+
+            // Initial and resize updates
+            updateBlocker();
+            window.addEventListener('resize', updateBlocker);
+            
+            // Update when UI is toggled
+            document.getElementById('toggleUI')?.addEventListener('click', () => {
+                setTimeout(updateBlocker, 10);
+            });
+        });
+    </script>
     <script type="module" src="../js/polytopes.js"></script>
 </body>
 </html>

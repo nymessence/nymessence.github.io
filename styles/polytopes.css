@@ -1,37 +1,73 @@
+/* General styling for the body */
 body {
     margin: 0;
-    overflow: hidden;
     font-family: Arial, sans-serif;
     color: #eee;
     background-color: #000;
 }
 
+/* The main canvas container */
 #container {
     position: fixed;
     width: 100%;
     height: 100%;
+    z-index: 1;
+}
+
+/*
+    The UI sidebar.
+    These are the most important styles for making it scrollable.
+*/
+#ui, #ui * {
+    pointer-events: auto !important;
 }
 
 #ui {
-    position: absolute;
-    top: 10px;
+    position: fixed;
+    top: 20px;
     right: 10px;
-    background: rgba(0, 0, 0, 0.7);
+    width: 280px;
+    height: calc(100vh - 40px);
+    max-height: calc(100vh - 40px);
+    background: rgba(0, 0, 0, 0.85);
     padding: 15px;
-    border-radius: 5px;
-    max-width: 300px;
-    max-height: 90vh; /* limits sidebar height */
-    overflow-y: auto; /* enables vertical scrolling */
+    border-radius: 6px;
     color: #eee;
-    transition: all 0.3s;
-    z-index: 10;
+    z-index: 2000;
+    overflow-y: hidden; /* We'll manage scroll manually */
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+    touch-action: pan-y;
 }
 
+/* Optional: show scrollbar when scrolling */
+#ui.scrolling {
+    overflow-y: auto;
+}
+
+ui::-webkit-scrollbar {
+    width: 8px;
+}
+
+#ui::-webkit-scrollbar-track {
+    background: #111;
+}
+
+#ui::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+#ui::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+/* Styling for when the UI is hidden */
 #ui.hidden {
-    right: -320px; /* keeps your slide-out effect */
-    transition: right 0.3s ease; /* optional: smoother timing */
+    right: -320px;
+    transition: right 0.3s ease;
 }
-
 
 header {
     display: flex;
@@ -73,12 +109,18 @@ select, input[type="range"], input[type="color"], input[type="number"] {
     border: 1px solid #444;
 }
 
+select {
+    padding: 5px;
+}
+
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     background: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 3px;
     font-size: 12px;
+    z-index: 2;
 }
+

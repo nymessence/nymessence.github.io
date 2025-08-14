@@ -1,7 +1,90 @@
-// polytopes.js — Replace your old file with this one
+// polytopes.js — Fully fixed version with scrollable UI
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { ConvexGeometry } from "three/addons/geometries/ConvexGeometry.js";
+
+// =============== CRITICAL UI SCROLL FIX ===============
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Create UI mask that blocks canvas events ONLY under UI
+    const uiMask = document.createElement('div');
+    uiMask.id = 'ui-mask';
+    uiMask.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 10px;
+        width: 280px;
+        height: calc(100vh - 40px);
+        z-index: 1950;
+        pointer-events: none;
+        background: transparent;
+    `;
+    document.body.appendChild(uiMask);
+
+    // 2. Ensure UI has proper structure
+    const ui = document.getElementById('ui');
+    if (ui && !ui.querySelector('.ui-content')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'ui-content';
+        while (ui.firstChild) wrapper.appendChild(ui.firstChild);
+        ui.appendChild(wrapper);
+    }
+
+    // 3. Critical: Block canvas events under UI area
+    const updateUIMask = () => {
+        const ui = document.getElementById('ui');
+        if (!ui || ui.classList.contains('hidden')) {
+            uiMask.style.display = 'none';
+            return;
+        }
+        
+        // Get UI position
+        const rect = ui.getBoundingClientRect();
+        uiMask.style.top = `${rect.top}px`;
+        uiMask.style.right = `${window.innerWidth - rect.right}px`;
+        uiMask.style.width = `${rect.width}px`;
+        uiMask.style.height = `${rect.height}px`;
+        uiMask.style.display = 'block';
+        
+        // Force UI to capture events
+        ui.style.pointerEvents = 'auto';
+    };
+
+    // 4. Update mask on resize and UI toggle
+    window.addEventListener('resize', updateUIMask);
+    document.getElementById('toggleUI')?.addEventListener('click', updateUIMask);
+    setTimeout(updateUIMask, 100); // Initial setup
+
+    // 5. MOST IMPORTANT: Prevent canvas from stealing wheel events
+    document.getElementById('container')?.addEventListener('wheel', (e) => {
+        const ui = document.getElementById('ui');
+        if (!ui) return;
+        
+        const rect = ui.getBoundingClientRect();
+        const isOverUI = (
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom
+        );
+        
+        if (isOverUI) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    }, { passive: false, capture: true });
+
+    // 6. Allow native scrolling to work
+    const uiContent = ui?.querySelector('.ui-content');
+    if (uiContent) {
+        uiContent.style.pointerEvents = 'auto';
+        uiContent.style.overflow = 'visible';
+    }
+});
+
+// =============== REST OF YOUR CODE BELOW ===============
+// Keep all your existing Three.js code here
+// But add this critical line at the VERY TOP of your initialization:
+window.uiScrollFixApplied = true;
 
 /* -------------------------
    Basic DOM + renderer + lights
@@ -51,7 +134,21 @@ function makeCameras() {
     if (controls) controls.dispose();
     controls = new OrbitControls(currentCamera, renderer.domElement);
     controls.enableDamping = true;
+    window.controls = controls; // Critical for UI scroll
 }
+
+// Add this right after creating OrbitControls:
+document.addEventListener('DOMContentLoaded', () => {
+    const controls = window.controls;
+    if (controls) {
+        // Disable controls when over UI
+        const ui = document.getElementById('ui');
+        if (ui) {
+            ui.addEventListener('pointerenter', () => { controls.enabled = false; });
+            ui.addEventListener('pointerleave', () => { controls.enabled = true; });
+        }
+    }
+});
 
 makeCameras();
 
@@ -382,6 +479,40 @@ function setupUI() {
     const renderBtn = get('renderBtn'), resMult = get('resMult'), samples = get('samples'), progress = get('progress');
     const polySelect = get('polytopeSelect');
 
+    // Add the scroll hint if it doesn't exist
+    if (ui && !ui.querySelector('.scroll-hint')) {
+        const hint = document.createElement('div');
+        hint.className = 'scroll-hint';
+        hint.style.textAlign = 'center';
+        hint.style.fontSize = '12px';
+        hint.style.color = '#aaa';
+        hint.style.margin = '4px 0';
+        hint.style.padding = '4px';
+        hint.style.background = 'rgba(255, 255, 255, 0.05)';
+        hint.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+        hint.style.borderRadius = '3px';
+        hint.style.pointerEvents = 'none';
+        hint.style.transition = 'opacity 0.3s ease';
+        hint.textContent = '↓ Scroll for more controls';
+        ui.insertBefore(hint, ui.firstChild.nextSibling); // After header
+    }
+
+    // Wrap UI content if not already wrapped
+    if (ui && !ui.querySelector('.ui-content')) {
+        const content = document.createElement('div');
+        content.className = 'ui-content';
+        
+        // Move all children except the hint into the wrapper
+        const children = Array.from(ui.children);
+        children.forEach(child => {
+            if (!child.classList.contains('scroll-hint')) {
+                content.appendChild(child);
+            }
+        });
+        
+        ui.appendChild(content);
+    }
+
     if (showVerts) showVerts.addEventListener('change', e => { settings.showVertices = e.target.checked; updateGeometry(); });
     if (vertColor) vertColor.addEventListener('input', e => { settings.vertexColor = e.target.value; updateGeometry(); });
     if (vertSize) vertSize.addEventListener('input', e => { settings.vertexSize = parseFloat(e.target.value); updateGeometry(); });
@@ -513,12 +644,168 @@ function boundsToCamera() {
 }
 
 /* -------------------------
+   SCROLLABLE UI IMPLEMENTATION
+   ------------------------- */
+function setupScrollableUI() {
+    const ui = document.getElementById('ui');
+    if (!ui) return;
+    
+    const content = ui.querySelector('.ui-content');
+    if (!content) return;
+    
+    // Ensure UI has proper styling
+    ui.style.position = 'fixed';
+    ui.style.top = '20px';
+    ui.style.right = '10px';
+    ui.style.width = '280px';
+    ui.style.height = `calc(100vh - 40px)`;
+    ui.style.maxHeight = `calc(100vh - 40px)`;
+    ui.style.overflow = 'hidden';
+    ui.style.boxSizing = 'border-box';
+    ui.style.zIndex = '2000';
+    ui.style.touchAction = 'pan-y';
+    
+    // Add scrollbar indicator
+    if (!ui.querySelector('.scrollbar-indicator')) {
+        const scrollbar = document.createElement('div');
+        scrollbar.className = 'scrollbar-indicator';
+        scrollbar.style.position = 'absolute';
+        scrollbar.style.top = '0';
+        scrollbar.style.right = '5px';
+        scrollbar.style.bottom = '0';
+        scrollbar.style.width = '2px';
+        scrollbar.style.background = 'rgba(255, 255, 255, 0.1)';
+        scrollbar.style.borderRadius = '1px';
+        scrollbar.style.pointerEvents = 'none';
+        scrollbar.style.opacity = '0';
+        scrollbar.style.transition = 'opacity 0.3s';
+        ui.appendChild(scrollbar);
+    }
+    
+    const scrollbar = ui.querySelector('.scrollbar-indicator');
+    const scrollHint = ui.querySelector('.scroll-hint');
+    
+    let scrollTop = 0;
+    let isScrolling = false;
+    let hasScrolled = false;
+    let startY = 0;
+    let startScrollTop = 0;
+
+    function updateDimensions() {
+        const maxScroll = content.scrollHeight - ui.clientHeight;
+        return Math.max(0, maxScroll);
+    }
+
+    function updateScroll() {
+        const maxScroll = updateDimensions();
+        scrollTop = Math.max(0, Math.min(scrollTop, maxScroll));
+        content.style.transform = `translateY(${-scrollTop}px)`;
+        
+        // Update scrollbar indicator
+        const scrollPercentage = maxScroll > 0 ? scrollTop / maxScroll : 0;
+        const indicatorHeight = Math.max(20, ui.clientHeight * (ui.clientHeight / content.scrollHeight));
+        const indicatorTop = (ui.clientHeight - indicatorHeight) * scrollPercentage;
+        
+        if (scrollbar) {
+            scrollbar.style.height = `${indicatorHeight}px`;
+            scrollbar.style.top = `${indicatorTop}px`;
+            scrollbar.style.opacity = scrollTop > 0 || scrollTop < maxScroll ? '1' : '0';
+        }
+        
+        // Hide hint after user scrolls
+        if (scrollTop > 20 && !hasScrolled && scrollHint) {
+            hasScrolled = true;
+            scrollHint.style.transition = 'opacity 0.3s';
+            scrollHint.style.opacity = '0';
+            setTimeout(() => {
+                scrollHint.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // Handle wheel events
+    ui.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        scrollTop += e.deltaY * 0.8; // Smoother scrolling
+        updateScroll();
+    }, { passive: false });
+
+    // Handle touch events (mobile)
+    ui.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        startScrollTop = scrollTop;
+        isScrolling = true;
+    }, { passive: false });
+
+    ui.addEventListener('touchmove', (e) => {
+        if (!isScrolling) return;
+        e.preventDefault();
+        const deltaY = e.touches[0].clientY - startY;
+        scrollTop = startScrollTop - deltaY;
+        updateScroll();
+    }, { passive: false });
+
+    ui.addEventListener('touchend', () => {
+        isScrolling = false;
+    });
+
+    // Handle mouse drag (alternative scroll method)
+    let isDragging = false;
+    
+    ui.addEventListener('mousedown', (e) => {
+        if (e.target === content || content.contains(e.target)) {
+            isDragging = true;
+            startY = e.clientY;
+            startScrollTop = scrollTop;
+            ui.style.cursor = 'grabbing';
+            e.preventDefault();
+        }
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaY = e.clientY - startY;
+        scrollTop = startScrollTop - deltaY;
+        updateScroll();
+    });
+    
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        ui.style.cursor = '';
+    });
+
+    // Initial setup
+    updateScroll();
+    
+    // Handle window resize
+    window.addEventListener('resize', updateScroll);
+    
+    // Disable OrbitControls when over UI
+    if (window.controls) {
+        ui.addEventListener('pointerenter', () => { 
+            window.controls.enabled = false; 
+        });
+        ui.addEventListener('pointerleave', () => { 
+            window.controls.enabled = true; 
+        });
+    }
+}
+
+/* -------------------------
    init + animate
    ------------------------- */
 loadPolytope('24-cell');
 setupUI();
-boundsToCamera();
-updateGeometry();
+
+// Wait for DOM to be fully ready before setting up scroll
+document.addEventListener('DOMContentLoaded', () => {
+    // Set up scrollable UI after everything is ready
+    setupScrollableUI();
+    
+    // Initial camera positioning
+    boundsToCamera();
+    updateGeometry();
+});
 
 function animate() {
     requestAnimationFrame(animate);
@@ -526,4 +813,3 @@ function animate() {
     renderer.render(scene, currentCamera);
 }
 animate();
-
