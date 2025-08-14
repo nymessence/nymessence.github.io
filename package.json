@@ -1,13 +1,20 @@
 {
-  "dependencies": {
-    "three": "^0.179.1"
-  },
-  "devDependencies": {
-    "vite": "^4.5.3",
-    "vite-plugin-rewrite-all": "^1.0.2"
-  },
+  "name": "nymessence.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^4.0.0"
+  },
+  "dependencies": {
+    "three": "^0.149.0"
   }
 }
+
