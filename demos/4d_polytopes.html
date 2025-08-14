@@ -10,62 +10,28 @@
 
     <script type="importmap">
     {
-      "imports": {
-        "three": "/node_modules/three/build/three.module.js",
-        "three/addons/": "/node_modules/three/examples/jsm/"
-      }
+        "imports": {
+            "three": "../node_modules/three/build/three.module.js",
+            "three/addons/": "../node_modules/three/examples/jsm/"
+        }
     }
     </script>
-
-    <style>
-        /* Ensure UI has highest priority */
-        #ui {
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-            pointer-events: auto !important;
-        }
-        
-        #ui * {
-            pointer-events: auto !important;
-        }
-    </style>
 </head>
 
 <body>
+    <!-- Main 3D canvas container -->
     <div id="container" class="canvas-container"></div>
 
-    <div id="ui-event-blocker" style="
-        position: fixed;
-        top: 20px;
-        right: 10px;
-        width: 280px;
-        height: calc(100vh - 40px);
-        z-index: 1999;
-        pointer-events: none;
-        display: block;
-        border-radius: 6px;
-    "></div>
-
+    <!-- UI Sidebar -->
     <aside id="ui" role="complementary" aria-label="Control Panel">
         <div class="ui-content">
             <header>
                 <strong>4D Polytope Visualizer</strong>
-                <button id="toggleUI" aria-pressed="false">Hide UI</button>
+                <button id="toggleUI">Hide UI</button>
                 <button id="fullscreenBtn">Full screen</button>
             </header>
 
-            <div class="scroll-hint" style="
-                text-align: center;
-                font-size: 12px;
-                color: #aaa;
-                margin: 4px 0;
-                padding: 4px;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 3px;
-                pointer-events: none;
-                transition: opacity 0.3s ease;
-            ">↓ Scroll for more controls</div>
+            <div class="scroll-hint">↓ Scroll for more controls</div>
 
             <label for="polytopeSelect">
                 Select Polytope
@@ -92,7 +58,6 @@
                 Vertex Size
                 <input type="range" id="vertSize" min="0.01" max="0.2" step="0.005" value="0.05" />
             </label>
-
             <hr />
 
             <label>
@@ -107,7 +72,6 @@
                 Edge Opacity
                 <input type="range" id="edgeOpacity" min="0" max="1" step="0.01" value="0.9" />
             </label>
-
             <hr />
 
             <label>
@@ -122,7 +86,6 @@
                 Face Opacity
                 <input type="range" id="faceOpacity" min="0" max="1" step="0.01" value="0.3" />
             </label>
-
             <hr />
 
             <label for="projectionType">
@@ -137,29 +100,28 @@
             <strong>4D Rotations</strong>
             <label>
                 XY Rotation
-                <input type="range" id="rotXY" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XY: 0.00 rad" />
+                <input type="range" id="rotXY" min="0" max="6.28318" step="0.01" value="0" />
             </label>
             <label>
                 XZ Rotation
-                <input type="range" id="rotXZ" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XZ: 0.00 rad" />
+                <input type="range" id="rotXZ" min="0" max="6.28318" step="0.01" value="0" />
             </label>
             <label>
                 YZ Rotation
-                <input type="range" id="rotYZ" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="YZ: 0.00 rad" />
+                <input type="range" id="rotYZ" min="0" max="6.28318" step="0.01" value="0" />
             </label>
             <label>
                 XW Rotation
-                <input type="range" id="rotXW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="XW: 0.00 rad" />
+                <input type="range" id="rotXW" min="0" max="6.28318" step="0.01" value="0" />
             </label>
             <label>
                 YW Rotation
-                <input type="range" id="rotYW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="YW: 0.00 rad" />
+                <input type="range" id="rotYW" min="0" max="6.28318" step="0.01" value="0" />
             </label>
             <label>
                 ZW Rotation
-                <input type="range" id="rotZW" min="0" max="6.28318" step="0.01" value="0" aria-valuetext="ZW: 0.00 rad" />
+                <input type="range" id="rotZW" min="0" max="6.28318" step="0.01" value="0" />
             </label>
-
             <hr />
 
             <label for="renderMode">
@@ -187,7 +149,47 @@
         Use sliders to control 4D rotation planes.
     </footer>
 
-    <!-- Include the polytope JS module -->
+    <!-- Remove event blocker script entirely -->
+    <!-- No need for DOMContentLoaded workaround -->
+    <script>
+      // MOBILE TOUCH FIX: Prevent canvas from stealing scroll
+        document.addEventListener('DOMContentLoaded', () => {
+            const ui = document.getElementById('ui');
+            const container = document.getElementById('container');
+
+            // Prevent touchmove on canvas IF user is scrolling the UI
+            let isScrollingUI = false;
+
+            ui.addEventListener('touchstart', () => {
+                isScrollingUI = true;
+            }, { passive: true });
+
+            ui.addEventListener('touchend', () => {
+                setTimeout(() => { isScrollingUI = false; }, 100);
+            });
+
+            container.addEventListener('touchstart', (e) => {
+                if (isScrollingUI) e.preventDefault();
+            }, { passive: false });
+
+            container.addEventListener('touchmove', (e) => {
+                if (isScrollingUI) e.preventDefault();
+            }, { passive: false });
+
+            // Optional: Re-enable body scroll only for UI interaction
+            ui.addEventListener('touchstart', (e) => {
+                if (e.target.closest('#ui')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }, { passive: true });
+
+            ui.addEventListener('touchend', () => {
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
+
+    <!-- Main app script -->
     <script type="module" src="../js/polytopes.js"></script>
 </body>
 </html>
