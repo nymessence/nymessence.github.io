@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IPFS File Uploader</title>
-  <link rel="stylesheet" href="../styles/ipfs.css">
-  <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPFS File Uploader</title>
+  <link rel="stylesheet" href="../styles/ipfs.css">
+  <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
 </head>
 <body>
 
-  <div class="container">
-    <h2>Upload File to IPFS</h2>
-    <label for="fileInput" class="drag-area" id="dragArea">
-      <p>Drag or drop your file here</p>
-    </label>
-    <input type="file" id="fileInput" />
-    <button class="upload-btn" id="uploadBtn">Upload</button>
-    <p class="status" id="status"></p>
-    <p class="cid-display">Root CID: <span id="cid"></span></p>
-  </div>
+  <div class="container">
+    <h2>Upload File to IPFS</h2>
+    <label for="fileInput" class="drag-area" id="dragArea">
+      <p>Drag or drop your file here</p>
+    </label>
+    <input type="file" id="fileInput" />
+    <button class="upload-btn" id="uploadBtn">Upload</button>
+    <p class="status" id="status"></p>
+    <p class="cid-display">Root CID: <span id="cid"></span></p>
+  </div>
 
-  <script type="module" src="ipfs_uploader.js"></script>
+  <!-- The script tag has been corrected to point to the right file and includes 'type="module"' -->
+  <script type="module" src="../js/ipfs.js"></script>
 </body>
 </html>
 
