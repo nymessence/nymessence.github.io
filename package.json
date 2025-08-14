@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "vite": "^4.5.3",
+    "vite-plugin-rewrite-all": "^1.0.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  }
+}

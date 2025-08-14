@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fractal Explorer</title>
+    <link rel="stylesheet" href="../styles/fractal.css">
+    <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="controls">
+        <label>
+            Function: 
+            <input type="text" id="funcInput" value="z*z + c">
+        </label>
+        <label>
+            c (real, imag):
+            <input type="number" id="cReal" value="0">
+            <input type="number" id="cImag" value="0">
+        </label>
+        <label>
+            Iterations: 
+            <input type="number" id="iterations" value="64">
+        </label>
+        <label>
+            Gradient (comma-separated hex):
+            <input type="text" id="gradient" value="#000764,#206bcb,#edffff,#ffaa00,#000200">
+        </label>
+        <button id="resetView">Reset View</button>
+    </div>
+
+    <canvas id="fractalCanvas"></canvas>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11/lib/browser/math.js"></script>
+    <script src="../js/fractal.js"></script>
+</body>
+</html>
+

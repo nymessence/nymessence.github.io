@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+    <title>Hexgame</title>
+    <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/node_modules/three/build/three.module.js"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="../styles/hexgame.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="controls">
+        <h2>Hexgame / Ulam Spiral</h2>
+        <button id="startBtn">Start</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <div id="game-ui">
+        <div class="score-display">
+            <h3>Score: <span id="score">0</span></h3>
+        </div>
+        <div class="highscore-display">
+            <h3>High Score: <span id="highscore">0</span></h3>
+        </div>
+        <div class="lives-display">
+            <h3>Lives: <span id="lives">3</span></h3>
+        </div>
+    </div>
+    
+    <script>
+      document.currentScript.addEventListener('error', (e) => {
+        console.error("Failed to load:", e.target.src);
+      }, true);
+    </script>
+
+    <script type="module" src="../js/hexgame.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ulam Spiral Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../styles/ulam.css" />
+  <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+</head>
+<body>
+
+<div id="ui">
+  <strong>Number Visualization</strong>
+  <label>
+    Mode:
+    <select id="modeSelect">
+      <option value="ulam-green">Ulam Spiral (Green)</option>
+      <option value="ulam-heat">Ulam Spiral (Heatmap)</option>
+      <option value="ulam-comet">Ulam Spiral (Comet)</option>
+      <option value="gauss-green">Gaussian Primes (Green)</option>
+      <option value="gauss-heat">Gaussian Primes (Heatmap)</option>
+      <option value="gauss-comet">Gaussian Primes (Comet)</option>
+      <option value="eisen-green">Eisenstein Primes (Green)</option>
+      <option value="eisen-heat">Eisenstein Primes (Heatmap)</option>
+      <option value="eisen-comet">Eisenstein Primes (Comet)</option>
+    </select>
+  </label>
+</div>
+
+<canvas id="ulamCanvas"></canvas>
+
+<script type="module" src="../js/ulam.js"></script>
+
+</body>
+</html>
