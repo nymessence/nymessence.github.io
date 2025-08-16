@@ -8,6 +8,7 @@
 import * as THREE from "./node_modules/three/build/three.module.js";
 import { OrbitControls } from "./node_modules/three/examples/jsm/controls/OrbitControls.js";
 import { ConvexGeometry } from "./node_modules/three/examples/jsm/geometries/ConvexGeometry.js";
+import { PointerLockControls } from "../node_modules/three/examples/jsm/controls/PointerLockControls.js";
 
 // Import all your custom JavaScript files from the 'js' directory.
 // The paths are now correctly relative to the root of your project.
@@ -19,6 +20,7 @@ import './js/ipfs.js';
 import './js/item-listing.js';
 import './js/polytopes-ui.js';
 import './js/ulam.js';
+import './js/pascals-pyramid.js';
 
 // The rest of your main application logic goes here.
 // All the functions, classes, and variables from the imported files
