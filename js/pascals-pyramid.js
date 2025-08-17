@@ -1,5 +1,7 @@
-import * as THREE from "../node_modules/three/build/three.module.js";
-import { PointerLockControls } from "../node_modules/three/examples/jsm/controls/PointerLockControls.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/OrbitControls';
+import { PointerLockControls } from 'three/addons/PointerLockControls';
+
 
 const container = document.getElementById('container');
 const scene = new THREE.Scene();
