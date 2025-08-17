@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NymyaOS Vision</title>
+  <link rel="stylesheet" href="../styles/merch-art.css?v=1">
+  <link rel="icon" href="../logo/nymessence_logo_clean.svg" type="image/svg+xml">
+</head>
+<body>
+
+    
+    <div class="page-wrapper">
+      <div id="banner"></div>
+      <div id="navbar"></div>
+
+      <script>
+          async function loadHTML(id, file) {
+              const res = await fetch(file);
+              const html = await res.text();
+              document.getElementById(id).innerHTML = html;
+          }
+
+          loadHTML('banner', '/banner.html');
+          loadHTML('navbar', 'navbar.html');
+      </script>
+      <div class="text-wrapper">
+          <h1>&gt; Nymessence Merch &amp; Art</h1>
+          <p class="support-text">Every sale of art, clothing, and gear directly supports the development of <a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS</a>.</p>
+        
+        <label for="merch-category">Choose a category:</label>
+        <select id="merch-category" onchange="changeMerchCategory(this.value)">
+            <option value="shirts.html">T-Shirts</option>
+            <option value="wall_art.html">Wall Art</option>
+        </select>
+        
+        <div class="merch-container">
+          <iframe id="merch-iframe" src="shirts.html" frameborder="0"></iframe>
+        </div>
+      </div>
+
+    </div>
+    
+    <script>
+        function changeMerchCategory(file) {
+            document.getElementById('merch-iframe').src = file;
+        }
+    </script>
+</body>
+</html>

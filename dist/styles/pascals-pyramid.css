@@ -1,0 +1,117 @@
+/* -------------------------
+   Body & Canvas
+------------------------- */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    background-color: #000;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 100%;
+    position: fixed; /* fill viewport */
+    top: 0;
+    left: 0;
+    z-index: 0; /* behind UI */
+}
+
+/* -------------------------
+   Sidebar UI
+------------------------- */
+#ui {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    z-index: 10; /* above canvas */
+    max-width: 240px;
+    font-size: 14px;
+    overflow-y: auto;
+    max-height: 90%;
+}
+
+#ui header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+#ui header button {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#ui header button:hover {
+    background: #555;
+}
+
+#ui label {
+    display: block;
+    margin-top: 6px;
+}
+
+#ui input[type=range] {
+    width: 100%;
+    margin-top: 2px;
+}
+
+#ui button {
+    margin-top: 8px;
+    width: 100%;
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#ui button:hover {
+    background: #444;
+}
+
+/* -------------------------
+   Scroll hint
+------------------------- */
+.scroll-hint {
+    font-size: 11px;
+    color: #ccc;
+    margin: 4px 0 6px 0;
+    pointer-events: none;
+}
+
+/* -------------------------
+   Mobile Joystick / Look
+------------------------- */
+.joystick, .look {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    bottom: 20px;
+    touch-action: none;
+    z-index: 5;
+    pointer-events: none; /* pass events to canvas unless implemented */
+}
+
+.joystick { left: 20px; }
+.look { right: 20px; }
+
+/* Joystick visual feedback (optional) */
+.joystick .nipple, .look .nipple {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 50%;
+}
+

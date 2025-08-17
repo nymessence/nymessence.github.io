@@ -1,0 +1,29 @@
+.pill-button {
+  /* Basic Button Styling */
+  display: inline-block;
+  padding: 20px 40px; /* Adjust padding for desired size */
+  border-radius: 50px; /* Makes it pill-shaped */
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  
+  /* Color and 3D Effect */
+  color: white;
+  background: linear-gradient(145deg, #1e90ff, #005ce6); /* Blue gradient */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+  
+  /* Hover and Active States */
+  transition: all 0.3s ease;
+}
+
+.pill-button:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.pill-button:active {
+  transform: translateY(1px); /* Push down on click */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, #005ce6, #1e90ff); /* Inverted gradient on click */
+}
