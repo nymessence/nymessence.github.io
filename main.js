@@ -21,6 +21,8 @@ import './js/item-listing.js';
 import './js/polytopes-ui.js';
 import './js/ulam.js';
 import './js/pascals-pyramid.js';
+import './js/numerology.js';
+import './js/name_mappings.json';
 
 // The rest of your main application logic goes here.
 // All the functions, classes, and variables from the imported files

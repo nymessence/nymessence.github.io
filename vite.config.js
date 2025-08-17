@@ -9,6 +9,7 @@ export default defineConfig({
         { src: 'styles/*', dest: 'styles' },
         { src: 'js/*', dest: 'js' },
         { src: 'assets/*', dest: 'assets' },
+        { src: 'csv/*', dest: 'csv' },
         { src: 'vision/*', dest: 'vision' },
         { src: 'demos/*', dest: 'demos' },
         { src: 'internship/*', dest: 'internship' },
@@ -32,7 +33,8 @@ export default defineConfig({
         polytopeUI: resolve(__dirname, 'demos/polytope_ui.html'),
         ulam: resolve(__dirname, 'demos/ulam.html'),
         demosIndex: resolve(__dirname, 'demos/index.html'),
-        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html')
+        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html'),
+        numerology: resolve(__dirname, 'demos/numerology.html')
       },
       output: {
         entryFileNames: `assets/[name].js`,
