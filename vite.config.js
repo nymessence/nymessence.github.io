@@ -4,29 +4,13 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   plugins: [
-    rewriteAll(),
     viteStaticCopy({
       targets: [
-        {
-          src: 'styles/*',
-          dest: 'styles'  // copies to dist/styles
-        },
-        {
-          src: 'vision/*',
-          dest: 'vision' // copies to dist/vision
-        },
-        {
-          src: 'demos/*',
-          dest: 'demos' // copies to dist/demos
-        },
-        {
-          src: 'internship/*',
-          dest: 'internship' // copies to dist/internship
-        },
-        {
-          src: 'merch/*',
-          dest: 'merch' // copies to dist/merch
-        },
+        { src: 'styles/*', dest: 'styles' },
+        { src: 'vision/*', dest: 'vision' },
+        { src: 'demos/*', dest: 'demos' },
+        { src: 'internship/*', dest: 'internship' },
+        { src: 'merch/*', dest: 'merch' },
       ]
     })
   ],
@@ -46,7 +30,7 @@ export default defineConfig({
         polytopeUI: resolve(__dirname, 'demos/polytope_ui.html'),
         ulam: resolve(__dirname, 'demos/ulam.html'),
         demosIndex: resolve(__dirname, 'demos/index.html'),
-        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html') // NEW
+        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html')
       },
       output: {
         entryFileNames: `assets/[name].js`,
