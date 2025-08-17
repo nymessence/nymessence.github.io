@@ -1,11 +1,27 @@
-// vite.config.js
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import rewriteAll from 'vite-plugin-rewrite-all';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   plugins: [
-    rewriteAll()
+    rewriteAll(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'styles/*',
+          dest: 'styles'  // copies to dist/styles
+        },
+        {
+          src: 'vision/*',
+          dest: 'vision' // copies to dist/vision
+        },
+        {
+          src: 'demos/pascals-pyramid.html',
+          dest: 'demos' // copies to dist/demos
+        }
+      ]
+    })
   ],
   base: '/',
   build: {
@@ -22,8 +38,8 @@ export default defineConfig({
         polytopeCanvas: resolve(__dirname, 'demos/polytope_canvas.html'),
         polytopeUI: resolve(__dirname, 'demos/polytope_ui.html'),
         ulam: resolve(__dirname, 'demos/ulam.html'),
-        // Assuming 'demos/index.html' is a separate entry point
         demosIndex: resolve(__dirname, 'demos/index.html'),
+        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html') // NEW
       },
       output: {
         entryFileNames: `assets/[name].js`,
