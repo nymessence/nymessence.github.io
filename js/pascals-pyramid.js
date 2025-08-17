@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/OrbitControls';
 import { PointerLockControls } from 'three/addons/PointerLockControls';
 
+// pascals-pyramid.js
+import '/styles/pascals-pyramid.css';
 
 const container = document.getElementById('container');
 const scene = new THREE.Scene();
