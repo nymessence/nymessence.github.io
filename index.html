@@ -5,15 +5,17 @@
   <title>Nymessence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Experimental systems for quantum consciousness and post-capitalist futures. Home of NymyaOS.">
-  <link rel="icon" href="./assets/nymessence_logo_clean.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
 
   <!-- Only one copy needed -->
   <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
 
   <!-- Load your bundled JS via Vite -->
-  <script type="module" src="./main.js"></script>
 
-  <link rel="stylesheet" href="./assets/main.css">
+  <script type="module" crossorigin src="/assets/main.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.js">
+  <link rel="modulepreload" crossorigin href="/assets/pascals-pyramid.js">
+  <link rel="stylesheet" crossorigin href="/assets/main.css">
 </head>
 <body>
   <div id="banner"></div>
