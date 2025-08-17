@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Numerology Translator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #111419;
+      --muted: #8da2b5;
+      --text: #eef2f7;
+      --accent: #7dd3fc;
+      --accent-2: #a78bfa;
+      --red: #fca5a5;
+      --yellow: #fde68a;
+      --green: #86efac;
+      --border: #1c232d;
+    }
+    * { box-sizing: border-box }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif }
+    header { padding: 20px 16px; border-bottom: 1px solid var(--border); background: linear-gradient(180deg, #0b0d10, #0b0d10cc 70%, transparent) }
+    header h1 { margin: 0 0 6px; font-size: 20px; letter-spacing: .2px }
+    header p { margin: 0; color: var(--muted); font-size: 13px }
+    main { max-width: 1200px; margin: 0 auto; padding: 16px }
+    .grid { display: grid; gap: 16px }
+    @media (min-width: 980px) {
+      .grid { grid-template-columns: 360px 1fr }
+    }
+    .card {
+      background: linear-gradient(180deg, #131822, #111419);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: .2px }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%; padding: 12px 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: #0f131a; color: var(--text); outline: none; font-size: 14px
+    }
+    textarea { min-height: 90px }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px }
+    button {
+      padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: #0d1220; color: var(--text);
+      font-weight: 600; cursor: pointer
+    }
+    button.primary { background: linear-gradient(90deg, #1b2a4a, #1a2140); border-color: #223156 }
+    button:active { transform: translateY(1px) }
+    .tag { display: inline-block; font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); margin-right: 6px; margin-bottom: 6px }
+    .tag.good { border-color: #1e3a2a; color: var(--green) }
+    .tag.warn { border-color: #3a2f1e; color: var(--yellow) }
+    .tag.bad { border-color: #3a1e1e; color: var(--red) }
+    .result { border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; background: #0f141b }
+    .result h3 { margin: 0 0 6px; font-size: 16px }
+    .muted { color: var(--muted) }
+    .table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px }
+    .table th, .table td { border-bottom: 1px solid var(--border); text-align: left; padding: 8px }
+    .pill { padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); font-size: 11px; color: var(--muted) }
+    .files { display: grid; gap: 8px }
+    .files label { margin-bottom: 2px }
+    .files input[type="file"] { background: #0f131a; border: 1px dashed #263247; padding: 10px; border-radius: 10px }
+    .footer { margin-top: 24px; font-size: 12px; color: var(--muted) }
+    code.k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 2px 6px; border-radius: 6px; background: #0c1016; border: 1px solid var(--border); color: #c8e1ff }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Numerology Translator</h1>
+    <p>Type a number, a pattern like 1111, or a name. Load your CSV and JSON to override defaults.</p>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Input</h2>
+      <label for="userInput">Number or Name</label>
+      <input id="userInput" type="text" placeholder="e.g., 1111, 369, Lily Hawk, 137" />
+
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label for="context">Context</label>
+          <select id="context">
+            <option value="clock">Clock sighting</option>
+            <option value="transaction">Invoice or receipt</option>
+            <option value="address">Address or phone</option>
+            <option value="dream">Dream or meditation</option>
+            <option value="general" selected>General</option>
+          </select>
+        </div>
+        <div>
+          <label for="school">School</label>
+          <select id="school">
+            <option value="pythagorean" selected>Pythagorean</option>
+            <option value="chaldean">Chaldean</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="primary" id="btnAnalyze">Analyze</button>
+        <button id="btnClear">Clear</button>
+      </div>
+
+      <div style="margin-top:16px">
+        <h2>Load research files</h2>
+        <div class="files">
+          <div>
+            <label>numbers_core.csv</label>
+            <input id="fileCore" type="file" accept=".csv" data-path="../csv/numbers_core.csv" />
+          </div>
+          <div>
+            <label>repeated_sequences.csv</label>
+            <input id="fileRepeats" type="file" accept=".csv" data-path="../csv/repeated_sequences.csv" />
+          </div>
+          <div>
+            <label>primes_2_1000000.csv</label>
+            <input id="filePrimes" type="file" accept=".csv" data-path="../csv/primes_2_1000000.csv" />
+          </div>
+          <div>
+            <label>constants_and_ratios.csv</label>
+            <input id="fileConstants" type="file" accept=".csv" data-path="../csv/constants_and_ratios.csv" />
+          </div>
+          <div>
+            <label>name_mappings.json</label>
+            <input id="fileMappings" type="file" accept=".json" data-path="../csv/name_mappings.json" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Results</h2>
+      <div id="summary"></div>
+      <div id="results"></div>
+
+      <div class="footer">
+        <div>Shortcuts: <code class="k">Enter</code> to analyze. Default meanings are generic. Load your CSV and JSON to replace them.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/numerology.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+  "Pythagorean": {
+    "description": "Fixed, sequential mapping of English alphabet; A=1, B=2, ..., Z=26; then reduced to single digit or master number",
+    "origin": "Ancient Greece, attributed to Pythagoras (c. 570-495 BCE)",
+    "characteristics": [
+      "Systematic, rational approach",
+      "Widely used in United States and Europe",
+      "Beginner-friendly nature",
+      "Uses numbers 1-9 with master numbers 11, 22, 33"
+    ],
+    "mappings": {
+      "A": 1,
+      "B": 2,
+      "C": 3,
+      "D": 4,
+      "E": 5,
+      "F": 6,
+      "G": 7,
+      "H": 8,
+      "I": 9,
+      "J": 1,
+      "K": 2,
+      "L": 3,
+      "M": 4,
+      "N": 5,
+      "O": 6,
+      "P": 7,
+      "Q": 8,
+      "R": 9,
+      "S": 1,
+      "T": 2,
+      "U": 3,
+      "V": 4,
+      "W": 5,
+      "X": 6,
+      "Y": 7,
+      "Z": 8
+    }
+  },
+  "Chaldean": {
+    "description": "Non-sequential, vibration-based mapping; focuses on sound vibrations of letters; uses numbers 1-8 (excludes sacred 9)",
+    "origin": "Ancient Babylonia (Mesopotamia), 2000-1000 BCE",
+    "characteristics": [
+      "Based on mystical beliefs concerning sound vibrations",
+      "Emphasizes compound numbers before full reduction",
+      "Focuses on external influences, fate, and karmic patterns",
+      "Preferred in India and Middle East for advanced readings"
+    ],
+    "mappings": {
+      "A": 1,
+      "B": 2,
+      "C": 3,
+      "D": 4,
+      "E": 5,
+      "U": 6,
+      "V": 6,
+      "W": 6,
+      "O": 7,
+      "Z": 7,
+      "F": 8,
+      "P": 8
+    },
+    "note": "Chaldean system does not use number 9; certain letters share the same value based on sound vibration principles"
+  },
+  "Kabbalah": {
+    "description": "Based on Hebrew alphabet; uses gematria (assigning numerical values to Hebrew letters); distinguishes between vowel and consonant values",
+    "origin": "Jewish Mysticism, originating with the Sefer Yetzirah",
+    "characteristics": [
+      "Focuses on spiritual and divine meanings",
+      "Primarily analyzes names (not birth dates)",
+      "Distinguishes between soul (vowels) and personality (consonants)",
+      "Uses 22 letters of Hebrew alphabet with specific numerical values"
+    ],
+    "mappings": {
+      "Hebrew System": "Based on 22-letter Hebrew alphabet with values: Aleph=1, Bet=2, Gimel=3, Dalet=4, He=5, Vav=6, Zayin=7, Het=8, Tet=9, Yod=10, Kaf=20, Lamed=30, Mem=40, Nun=50, Samekh=60, Ayin=70, Pe=80, Tsade=90, Qof=100, Resh=200, Shin=300, Tav=400",
+      "Vowel-Consonant": "Vowels represent soul qualities, consonants represent personality traits"
+    },
+    "note": "Kabbalah numerology requires Hebrew names or transliteration; does not use standard English alphabet mapping"
+  },
+  "Chinese": {
+    "description": "Phonetic-based system; meaning determined by pronunciation in Mandarin or Cantonese",
+    "origin": "China",
+    "characteristics": [
+      "Meaning based on sound of number's pronunciation",
+      "Even numbers generally favored over odd numbers",
+      "Number 4 considered unlucky (sounds like 'death')",
+      "Number 8 considered most auspicious (sounds like 'prosper')"
+    ],
+    "phonetic_mappings": {
+      "1": "Sounds like 'sure'; considered auspicious",
+      "2": "Sounds like 'easy'", 
+      "3": "Sounds like 'life' or 'live'",
+      "4": "Sounds like 'death' - extremely unlucky",
+      "5": "Sounds like 'not'", 
+      "6": "Sounds like 'smooth' or 'prosper'",
+      "7": "Sounds like 'even'",
+      "8": "Sounds like 'prosper' or 'wealth' - most auspicious",
+      "9": "Sounds like 'long lasting'"
+    }
+  }
+}
