@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import rewriteAll from 'vite-plugin-rewrite-all';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
@@ -17,9 +16,17 @@ export default defineConfig({
           dest: 'vision' // copies to dist/vision
         },
         {
-          src: 'demos/pascals-pyramid.html',
+          src: 'demos/*',
           dest: 'demos' // copies to dist/demos
-        }
+        },
+        {
+          src: 'internship/*',
+          dest: 'internship' // copies to dist/internship
+        },
+        {
+          src: 'merch/*',
+          dest: 'merch' // copies to dist/merch
+        },
       ]
     })
   ],
