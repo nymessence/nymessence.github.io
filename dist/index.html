@@ -1,97 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nymessence</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Experimental systems for quantum consciousness and post-capitalist futures. Home of NymyaOS.">
-  <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <meta charset="UTF-8">
+  <title>Nymessence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Experimental systems for quantum consciousness and post-capitalist futures. Home of NymyaOS.">
+  <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
+
+  <!-- Only one copy needed -->
   <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="/assets/modulepreload-polyfill.js"></script>
-  <script type="module" crossorigin src="/assets/modulepreload-polyfill2.js"></script>
-  <script type="module" crossorigin src="/assets/modulepreload-polyfill22.js"></script>
-  <script type="module" crossorigin src="/assets/three.module22.js"></script>
-  <script type="module" crossorigin src="/assets/binaural2.js"></script>
-  <script type="module" crossorigin src="/assets/fractal2.js"></script>
-  <script type="module" crossorigin src="/assets/OrbitControls22.js"></script>
-  <script type="module" crossorigin src="/assets/hexgame2.js"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
-  <script type="module" crossorigin src="/assets/ipfs2.js"></script>
-  <script type="module" crossorigin src="/assets/ulam2.js"></script>
-  <script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/ipfs-http-client@59.0.0/+esm"></script>
+
+  <!-- Load your bundled JS via Vite -->
+
+  <script type="module" crossorigin src="/assets/main.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.js">
+  <link rel="modulepreload" crossorigin href="/assets/pascals-pyramid.js">
   <link rel="stylesheet" crossorigin href="/assets/main.css">
 </head>
 <body>
-  <div id="banner"></div>
-  <div id="navbar"></div>
+  <div id="banner"></div>
+  <div id="navbar"></div>
 
-  <script>
-    async function loadHTML(id, file) {
-      const res = await fetch(file);
-      const html = await res.text();
-      document.getElementById(id).innerHTML = html;
-    }
+  <script>
+    async function loadHTML(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
 
-    loadHTML('banner', 'banner.html');
-    loadHTML('navbar', 'navbar.html');
-  </script>
+    loadHTML('banner', 'banner.html');
+    loadHTML('navbar', 'navbar.html');
+  </script>
 
-  <!-- This is the new line that links your main JavaScript file -->
-  
-  
-  <h1>> Nymessence</h1>
-  <p>Experimental systems for quantum consciousness and post-capitalist futures.<br>
-  Home of <a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS</a>, the first consciousness-aligned operating system.</p>
+  <h1>> Nymessence</h1>
+  <p>Experimental systems for quantum consciousness and post-capitalist futures.<br>
+     Home of <a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS</a>, the first consciousness-aligned operating system.</p>
 
-  <div class="terminal">
-    <p><strong>$ reality is editable</strong></p>
-    <p><strong>$ sudo fork the future</strong></p>
-  </div>
+  <div class="terminal">
+    <p><strong>$ reality is editable</strong></p>
+    <p><strong>$ sudo fork the future</strong></p>
+  </div>
 
-  <h2>💻 nymyaOS Internship</h2>
-  <p>Help build the quantum-symbolic OS of tommorow!<br>
-  Apply here: <a href="/internship">nymessence.github.io/internship</a></p>
+  <h2>💻 nymyaOS Internship</h2>
+  <p>Help build the quantum-symbolic OS of tomorrow!<br>
+     Apply here: <a href="./internship">nymessence.github.io/internship</a></p>
 
-  <h2>📡 Who We Are</h2>
-    <p><em>Nymessence is a tech startup like no other on Earth.</em>  
-  We’re not chasing billion-dollar exits or building ad-driven surveillance tools.  
-  We’re designing post-capitalist systems, quantum programming environments, and open-source operating systems aligned with consciousness.  
-  Our work blends technology, spirituality, and systems theory into tools for the timelines that haven’t happened yet.  
-  If you’re neurodivergent, idealistic, or obsessed with the edge of what’s possible—this is your signal.</p>
+  <h2>📡 Who We Are</h2>
+  <p><em>Nymessence is a tech startup like no other on Earth.</em><br>
+     We’re not chasing billion-dollar exits or building ad-driven surveillance tools.<br>
+     We’re designing post-capitalist systems, quantum programming environments, and open-source operating systems aligned with consciousness.<br>
+     Our work blends technology, spirituality, and systems theory into tools for timelines that haven’t happened yet.<br>
+     If you’re neurodivergent, idealistic, or obsessed with the edge of what’s possible—this is your signal.</p>
 
-  <h2>🔗 Links</h2>
-  <ul>
-    <li><a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS Repository</a></li>
-    <li><a href="/internship" target="_blank">Internship Program</a></li>
-    <li><a href="/vision" target="_blank">Our Vision</a></li>
-    <li><a href="/merch" target="_blank">Merch & Art</a></li>
-  </ul>
-  
-  <button class="pill-button">
-    <a href="https://buymeacoffee.com/nymessence"> 🌀 Support nymyaOS Development 💻 </a>
-  </button>
+  <h2>🔗 Links</h2>
+  <ul>
+    <li><a href="https://github.com/nymessence/nymyaOS" target="_blank">nymyaOS Repository</a></li>
+    <li><a href="./internship" target="_blank">Internship Program</a></li>
+    <li><a href="./vision" target="_blank">Our Vision</a></li>
+    <li><a href="./merch" target="_blank">Merch & Art</a></li>
+  </ul>
 
-  <footer style="margin-top: 4em; font-size: 0.9em; color: #666;">
-    <p>© 2025 Nymessence. Reality is editable.</p>
-  </footer>
+  <button class="pill-button">
+    <a href="https://buymeacoffee.com/nymessence"> 🌀 Support nymyaOS Development 💻 </a>
+  </button>
 
+  <footer style="margin-top: 4em; font-size: 0.9em; color: #666;">
+    <p>© 2025 Nymessence. Reality is editable.</p>
+  </footer>
 </body>
 </html>
 
