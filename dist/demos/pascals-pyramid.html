@@ -68,7 +68,7 @@
             let isScrollingUI = false;
 
             ui.addEventListener('touchstart', () => { isScrollingUI = true; }, { passive: true });
-            ui.addEventListener('touchend', () => { setTimeout(()=>{isScrollingUI=false;},100); });
+            ui.addEventListener('touchend', () => { setTimeout(() => { isScrollingUI = false; }, 100); });
 
             container.addEventListener('touchstart', e => { if(isScrollingUI) e.preventDefault(); }, { passive: false });
             container.addEventListener('touchmove', e => { if(isScrollingUI) e.preventDefault(); }, { passive: false });
