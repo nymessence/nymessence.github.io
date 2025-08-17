@@ -11,16 +11,20 @@
     <script type="importmap">
     {
         "imports": {
-            "three": "../node_modules/three/build/three.module.js",
-            "three/addons/": "../node_modules/three/examples/jsm/"
+            "three": "/assets/three.module.js",
+            "three/addons/": "/assets/controls/"
         }
     }
     </script>
 
-    <!-- Main JS module -->
-    <script type="module" src="../js/pascals-pyramid.js"></script>
+    <!-- Module preload -->
+    <link rel="modulepreload" crossorigin href="/assets/three.module.js">
+    <link rel="modulepreload" crossorigin href="/assets/PointerLockControls.js">
 
-    <link rel="stylesheet" href="/styles/pascals-pyramid.css">
+    <!-- Main JS module -->
+    <script type="module" crossorigin src="/assets/pascals-pyramid.js"></script>
+
+    <link rel="stylesheet" href="/assets/pascals-pyramid.css">
 </head>
 
 <body>
@@ -68,7 +72,7 @@
             let isScrollingUI = false;
 
             ui.addEventListener('touchstart', () => { isScrollingUI = true; }, { passive: true });
-            ui.addEventListener('touchend', () => { setTimeout(() => { isScrollingUI = false; }, 100); });
+            ui.addEventListener('touchend', () => { setTimeout(()=>{isScrollingUI=false;},100); });
 
             container.addEventListener('touchstart', e => { if(isScrollingUI) e.preventDefault(); }, { passive: false });
             container.addEventListener('touchmove', e => { if(isScrollingUI) e.preventDefault(); }, { passive: false });
