@@ -7,24 +7,25 @@
 
     <link rel="icon" href="/assets/nymessence_logo_clean.svg" type="image/svg+xml">
 
-    <!-- Import map for Three.js and addons -->
+    <!-- Import map for Three.js and addons (relative paths preserved) -->
     <script type="importmap">
     {
         "imports": {
-            "three": "/assets/three.module.js",
-            "three/addons/": "/assets/controls/"
+            "three": "../node_modules/three/build/three.module.js",
+            "three/addons/": "../node_modules/three/examples/jsm/"
         }
     }
     </script>
 
     <!-- Module preload -->
-    <link rel="modulepreload" crossorigin href="/assets/three.module.js">
-    <link rel="modulepreload" crossorigin href="/assets/PointerLockControls.js">
+    <link rel="modulepreload" crossorigin href="../node_modules/three/build/three.module.js">
+    <link rel="modulepreload" crossorigin href="../node_modules/three/examples/jsm/controls/PointerLockControls.js">
 
     <!-- Main JS module -->
-    <script type="module" crossorigin src="/assets/pascals-pyramid.js"></script>
+    <script type="module" crossorigin src="../js/pascals-pyramid.js"></script>
 
-    <link rel="stylesheet" href="/assets/pascals-pyramid.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../styles/pascals-pyramid.css">
 </head>
 
 <body>
