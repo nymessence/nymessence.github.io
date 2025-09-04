@@ -1,0 +1,171 @@
+
+> nymessence.github.io@1.0.0 dev
+> vite --host --port 8081
+
+
+  VITE v7.1.2  ready in 347 ms
+
+  ➜  Local:   http://localhost:8081/nymessence.github.io/
+  ➜  Network: http://192.168.0.104:8081/nymessence.github.io/
+  ➜  Network: http://172.17.0.1:8081/nymessence.github.io/
+[vite-plugin-static-copy] Collected 138 items.
+2:08:52 PM [vite] (client) page reload index.html
+2:10:58 PM [vite] vite.config.js changed, restarting server...
+2:10:58 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:11:44 PM [vite] vite.config.js changed, restarting server...
+2:11:44 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:12:35 PM [vite] vite.config.js changed, restarting server...
+✘ [ERROR] Expected ";" but found ":"
+
+    vite.config.js:24:6:
+      24 │   base: isDev ? '/' : '/nymessence.github.io/',
+         │       ^
+         ╵       ;
+
+failed to load config from /home/erick/nymessence.github.io/vite.config.js
+2:12:35 PM [vite] Build failed with 1 error:
+vite.config.js:24:6: ERROR: Expected ";" but found ":"
+2:12:35 PM [vite] server restart failed
+2:12:40 PM [vite] vite.config.js changed, restarting server...
+2:12:40 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:13:52 PM [vite] vite.config.js changed, restarting server...
+2:13:52 PM [vite] server restarted.
+
+  ➜  Local:   http://localhost:8081/
+  ➜  Network: http://192.168.0.104:8081/
+  ➜  Network: http://172.17.0.1:8081/
+[vite-plugin-static-copy] Collected 138 items.
+2:15:44 PM [vite] vite.config.js changed, restarting server...
+2:15:44 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:15:59 PM [vite] vite.config.js changed, restarting server...
+2:15:59 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:18:22 PM [vite] vite.config.js changed, restarting server...
+2:18:22 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:18:41 PM [vite] vite.config.js changed, restarting server...
+✘ [ERROR] Expected ":" but found ","
+
+    vite.config.js:51:51:
+      51 │     allowedHosts: ['localhost'], ['erick-pi.local'],
+         │                                                    ^
+         ╵                                                    :
+
+failed to load config from /home/erick/nymessence.github.io/vite.config.js
+2:18:41 PM [vite] Build failed with 1 error:
+vite.config.js:51:51: ERROR: Expected ":" but found ","
+2:18:41 PM [vite] server restart failed
+2:18:56 PM [vite] vite.config.js changed, restarting server...
+✘ [ERROR] Expected ":" but found ","
+
+    vite.config.js:51:51:
+      51 │     allowedHosts: ['localhost'], ['erick-pi.local'],
+         │                                                    ^
+         ╵                                                    :
+
+failed to load config from /home/erick/nymessence.github.io/vite.config.js
+2:18:56 PM [vite] Build failed with 1 error:
+vite.config.js:51:51: ERROR: Expected ":" but found ","
+2:18:56 PM [vite] server restart failed
+2:19:50 PM [vite] vite.config.js changed, restarting server...
+2:19:50 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:20:04 PM [vite] vite.config.js changed, restarting server...
+✘ [ERROR] Expected ":" but found ","
+
+    vite.config.js:68:53:
+      68 │       allowedHosts: ['localhost'], ['erick-pi.local'],
+         │                                                      ^
+         ╵                                                      :
+
+failed to load config from /home/erick/nymessence.github.io/vite.config.js
+2:20:04 PM [vite] Build failed with 1 error:
+vite.config.js:68:53: ERROR: Expected ":" but found ","
+2:20:04 PM [vite] server restart failed
+2:22:29 PM [vite] vite.config.js changed, restarting server...
+2:22:29 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:23:53 PM [vite] vite.config.js changed, restarting server...
+2:23:53 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:25:28 PM [vite] vite.config.js changed, restarting server...
+2:25:28 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:26:40 PM [vite] vite.config.js changed, restarting server...
+2:26:40 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:31:16 PM [vite] vite.config.js changed, restarting server...
+2:31:16 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+2:31:16 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:31:22 PM [vite] vite.config.js changed, restarting server...
+2:31:22 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+2:31:22 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:34:56 PM [vite] vite.config.js changed, restarting server...
+2:34:56 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+2:34:56 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+2:35:18 PM [vite] (client) page reload internship/demos/4d_polytopes.html
+2:35:18 PM [vite] (client) page reload internship/demos/binaural.html
+2:35:18 PM [vite] (client) page reload internship/demos/fractal.html
+2:35:18 PM [vite] (client) page reload internship/demos/hexgame.html
+2:35:18 PM [vite] (client) page reload internship/demos/index.html
+2:35:18 PM [vite] (client) page reload internship/demos/ipfs.html
+2:35:18 PM [vite] (client) page reload internship/demos/min.html
+2:35:18 PM [vite] (client) page reload internship/demos/navbar.html
+2:35:18 PM [vite] (client) page reload internship/demos/numerology.html
+2:35:18 PM [vite] (client) page reload internship/demos/pascals-pyramid.html
+2:35:18 PM [vite] (client) page reload internship/demos/polytope_canvas.html
+2:35:18 PM [vite] (client) page reload internship/demos/polytope_ui.html
+2:35:18 PM [vite] (client) page reload internship/demos/ulam.html
+2:35:18 PM [vite] (client) page reload demos/4d_polytopes.html
+2:35:18 PM [vite] (client) page reload demos/binaural.html
+2:35:18 PM [vite] (client) page reload demos/fractal.html
+2:35:18 PM [vite] (client) page reload demos/hexgame.html
+2:35:18 PM [vite] (client) page reload demos/index.html
+2:35:18 PM [vite] (client) page reload demos/ipfs.html
+2:35:18 PM [vite] (client) page reload demos/min.html
+2:35:18 PM [vite] (client) page reload demos/navbar.html
+2:35:18 PM [vite] (client) page reload demos/numerology.html
+2:35:18 PM [vite] (client) page reload demos/pascals-pyramid.html
+2:35:18 PM [vite] (client) page reload demos/polytope_canvas.html
+2:35:18 PM [vite] (client) page reload demos/polytope_ui.html
+2:35:18 PM [vite] (client) page reload demos/ulam.html
+2:35:21 PM [vite] (client) page reload demos/4d_polytopes.html
+2:35:21 PM [vite] (client) page reload demos/binaural.html
+2:35:21 PM [vite] (client) page reload demos/fractal.html
+2:35:21 PM [vite] (client) page reload demos/hexgame.html
+2:35:21 PM [vite] (client) page reload demos/index.html
+2:35:21 PM [vite] (client) page reload demos/ipfs.html
+2:35:21 PM [vite] (client) page reload demos/min.html
+2:35:21 PM [vite] (client) page reload demos/navbar.html
+2:35:21 PM [vite] (client) page reload demos/numerology.html
+2:35:21 PM [vite] (client) page reload demos/pascals-pyramid.html
+2:35:21 PM [vite] (client) page reload demos/polytope_canvas.html
+2:35:21 PM [vite] (client) page reload demos/polytope_ui.html
+2:35:21 PM [vite] (client) page reload demos/ulam.html
+2:35:22 PM [vite] (client) page reload internship/demos/4d_polytopes.html
+2:35:22 PM [vite] (client) page reload internship/demos/binaural.html
+2:35:22 PM [vite] (client) page reload internship/demos/fractal.html
+2:35:22 PM [vite] (client) page reload internship/demos/hexgame.html
+2:35:22 PM [vite] (client) page reload internship/demos/index.html
+2:35:22 PM [vite] (client) page reload internship/demos/ipfs.html
+2:35:22 PM [vite] (client) page reload internship/demos/min.html
+2:35:22 PM [vite] (client) page reload internship/demos/navbar.html
+2:35:22 PM [vite] (client) page reload internship/demos/numerology.html
+2:35:22 PM [vite] (client) page reload internship/demos/pascals-pyramid.html
+2:35:22 PM [vite] (client) page reload internship/demos/polytope_canvas.html
+2:35:22 PM [vite] (client) page reload internship/demos/polytope_ui.html
+2:35:22 PM [vite] (client) page reload internship/demos/ulam.html
+2:38:43 PM [vite] vite.config.js changed, restarting server...
+2:38:43 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+2:38:43 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
+3:24:25 PM [vite] vite.config.js changed, restarting server...
+3:24:25 PM [vite] server restarted.
+[vite-plugin-static-copy] Collected 138 items.
