@@ -154,8 +154,8 @@ export default defineConfig({
       ],
     }),
   ],
-  // THE CORRECT FIX: Use a relative base path.
-  base: './',
+  // ✅ CORRECT FOR GITHUB USER SITES: base: '/'
+  base: '/',
   build: {
     outDir: 'dist',
     sourcemap: true,
@@ -187,4 +187,3 @@ export default defineConfig({
     allowedHosts: ['erick-pi.local'],
   },
 });
-
