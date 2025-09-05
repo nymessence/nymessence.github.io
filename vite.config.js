@@ -136,61 +136,55 @@ const activeLinkHighlighterPlugin = {
   },
 };
 
-export default defineConfig(({ command, mode }) => {
-  const base = command === 'serve' ? '/' : '/nymessence.github.io/';
-
-  return {
-    plugins: [
-      // Register the plugin to handle directory-specific navbars
-      dynamicNavbarPlugin,
-      // Register our custom plugin to handle clean URLs during development
-      cleanUrlPlugin,
-      // Register the plugin to fix nav link highlighting
-      activeLinkHighlighterPlugin,
-      // Copy static assets
-      viteStaticCopy({
-        targets: [
-          { src: 'styles/*', dest: 'styles' },
-          { src: 'js/*', dest: 'js' },
-          { src: 'assets/*', dest: 'assets' },
-          { src: 'csv/*', dest: 'csv' },
-          { src: 'vision/*', dest: 'vision' },
-          { src: 'demos/*', dest: 'demos' },
-          { src: 'internship/*', dest: 'internship' },
-          { src: 'merch/*', dest: 'merch' },
-        ],
-      }),
-    ],
-    base: base,
-    build: {
-      outDir: 'dist',
-      sourcemap: true,
-      rollupOptions: {
-        input: {
-          main: resolve(__dirname, 'index.html'),
-          binaural: resolve(__dirname, 'demos/binaural.html'),
-          fractal: resolve(__dirname, 'demos/fractal.html'),
-          hexgame: resolve(__dirname, 'demos/hexgame.html'),
-          ipfs: resolve(__dirname, 'demos/ipfs.html'),
-          polytopes: resolve(__dirname, 'demos/4d_polytopes.html'),
-          polytopeCanvas: resolve(__dirname, 'demos/polytope_canvas.html'),
-          polytopeUI: resolve(__dirname, 'demos/polytope_ui.html'),
-          ulam: resolve(__dirname, 'demos/ulam.html'),
-          demosIndex: resolve(__dirname, 'demos/index.html'),
-          pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html'),
-          numerology: resolve(__dirname, 'demos/numerology.html'),
-          internship: resolve(__dirname, 'internship/index.html'),
-        },
-        output: {
-          entryFileNames: `assets/[name].js`,
-          chunkFileNames: `assets/[name].js`,
-          assetFileNames: `assets/[name].[ext]`,
-        },
+export default defineConfig({
+  plugins: [
+    dynamicNavbarPlugin,
+    cleanUrlPlugin,
+    activeLinkHighlighterPlugin,
+    viteStaticCopy({
+      targets: [
+        { src: 'styles/*', dest: 'styles' },
+        { src: 'js/*', dest: 'js' },
+        { src: 'assets/*', dest: 'assets' },
+        { src: 'csv/*', dest: 'csv' },
+        { src: 'vision/*', dest: 'vision' },
+        { src: 'demos/*', dest: 'demos' },
+        { src: 'internship/*', dest: 'internship' },
+        { src: 'merch/*', dest: 'merch' },
+      ],
+    }),
+  ],
+  // THE CORRECT FIX: Use a relative base path.
+  base: './',
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        binaural: resolve(__dirname, 'demos/binaural.html'),
+        fractal: resolve(__dirname, 'demos/fractal.html'),
+        hexgame: resolve(__dirname, 'demos/hexgame.html'),
+        ipfs: resolve(__dirname, 'demos/ipfs.html'),
+        polytopes: resolve(__dirname, 'demos/4d_polytopes.html'),
+        polytopeCanvas: resolve(__dirname, 'demos/polytope_canvas.html'),
+        polytopeUI: resolve(__dirname, 'demos/polytope_ui.html'),
+        ulam: resolve(__dirname, 'demos/ulam.html'),
+        demosIndex: resolve(__dirname, 'demos/index.html'),
+        pascalsPyramid: resolve(__dirname, 'demos/pascals-pyramid.html'),
+        numerology: resolve(__dirname, 'demos/numerology.html'),
+        internship: resolve(__dirname, 'internship/index.html'),
+      },
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
       },
     },
-    server: {
-      host: true,
-      allowedHosts: ['erick-pi.local'],
-    },
-  };
+  },
+  server: {
+    host: true,
+    allowedHosts: ['erick-pi.local'],
+  },
 });
+
